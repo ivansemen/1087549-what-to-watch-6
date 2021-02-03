@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Семёненко](https://up.htmlacademy.ru/react/6/user/1087549).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Мамичев](https://htmlacademy.ru/profile/id1280971).
 
 ---
 
