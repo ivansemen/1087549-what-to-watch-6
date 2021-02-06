@@ -8,7 +8,7 @@ const Setting = {
   DATE: 2014
 };
 
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+const numbers = Array.from(Array(19).keys());
 
 ReactDOM.render(
     <App name={Setting.NAME} genre={Setting.GENRE} date={Setting.DATE} numbers={numbers}/>,

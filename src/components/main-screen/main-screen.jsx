@@ -6,7 +6,7 @@ const MainScreeen = (props) => {
   const {name, genre, date, numbers} = props;
 
   const cards = numbers.map((number) =>
-    <MovieCard key={number.toString()}/>
+    <MovieCard key={number}/>
   );
 
   return (
