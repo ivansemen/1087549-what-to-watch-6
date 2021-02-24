@@ -1,16 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
+import films from './mocks/films';
+import {keysToCamel} from './utils.js';
 
-const Setting = {
-  NAME: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  DATE: 2014
-};
+const correctFilms = films.map((film) => keysToCamel(film));
+// Меняет названия свойств с snake_case на camelCase
 
-const numbers = Array.from(Array(19).keys());
 
 ReactDOM.render(
-    <App name={Setting.NAME} genre={Setting.GENRE} date={Setting.DATE} numbers={numbers}/>,
+    <App films={correctFilms}/>,
     document.querySelector(`#root`)
 );

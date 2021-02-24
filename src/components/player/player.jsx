@@ -1,9 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Player = () => {
+const Player = (props) => {
+  const {firstFilm} = props;
+  const {previewVideoLink} = firstFilm;
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src="#" className="player__video" poster={previewVideoLink}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -39,3 +43,9 @@ const Player = () => {
 
 
 export default Player;
+
+Player.propTypes = {
+  firstFilm: PropTypes.shape({
+    previewVideoLink: PropTypes.string.isRequired,
+  }).isRequired,
+};
