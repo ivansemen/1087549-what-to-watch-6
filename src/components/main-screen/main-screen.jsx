@@ -1,13 +1,10 @@
 import React from 'react';
-import MovieCard from '../movie-card/movie-card';
+import MovieList from '../movie-list/movie-list';
 import PropTypes from 'prop-types';
 
 const MainScreeen = (props) => {
-  const {name, genre, date, numbers} = props;
-
-  const cards = numbers.map((number) =>
-    <MovieCard key={number}/>
-  );
+  const {films, firstFilm} = props;
+  const {name, genre, posterImage, released} = firstFilm;
 
   return (
     <React.Fragment>
@@ -37,14 +34,14 @@ const MainScreeen = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
               <h2 className="movie-card__title">{name}</h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
-                <span className="movie-card__year">{date}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -101,11 +98,7 @@ const MainScreeen = (props) => {
               <a href="#" className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
-
-          <div className="catalog__movies-list">
-            {cards}
-          </div>
-
+          <MovieList films={films}/>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
@@ -133,8 +126,11 @@ export default MainScreeen;
 
 
 MainScreeen.propTypes = {
-  name: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-  numbers: PropTypes.array.isRequired,
+  firstFilm: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    posterImage: PropTypes.string.isRequired,
+  }).isRequired,
+  films: PropTypes.array.isRequired,
 };

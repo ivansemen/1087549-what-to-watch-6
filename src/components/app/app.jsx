@@ -10,29 +10,29 @@ import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
 
 const App = (props) => {
-  const {name, genre, date, numbers} = props;
-
+  const {films} = props;
+  const [firstFilm] = films;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreeen name={name} genre={genre} date={date} numbers={numbers}/>
+          <MainScreeen films={films} firstFilm={firstFilm}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
         </Route>
         <Route exact path="/mylist">
-          <MyList/>
+          <MyList films={films}/>
         </Route>
         <Route exact path="/films/:id">
-          <Film/>
+          <Film firstFilm={firstFilm}/>
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReview/>
+          <AddReview firstFilm={firstFilm}/>
         </Route>
         <Route exact path="/player/:id">
-          <Player />
+          <Player firstFilm={firstFilm}/>
         </Route>
         <Route>
           <NotFound/>
@@ -45,8 +45,5 @@ const App = (props) => {
 export default App;
 
 App.propTypes = {
-  name: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
-  numbers: PropTypes.array.isRequired,
+  films: PropTypes.array.isRequired,
 };

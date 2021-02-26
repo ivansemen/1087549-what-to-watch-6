@@ -1,6 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Film = () => {
+const Film = (props) => {
+  const {firstFilm} = props;
+  const {id} = firstFilm;
+
   return (
     <React.Fragment>
       <section className="movie-card movie-card--full">
@@ -48,7 +53,7 @@ const Film = () => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn movie-card__button">Add review</a>
+                <Link to={`/films/:${id}/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -157,3 +162,9 @@ const Film = () => {
 
 
 export default Film;
+
+Film.propTypes = {
+  firstFilm: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+};
