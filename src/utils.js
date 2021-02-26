@@ -1,6 +1,6 @@
 const toCamel = (s) => {
-  return s.replace(/([-_][a-z])/ig, ($1) => {
-    return $1.toUpperCase()
+  return s.replace(/([-_][a-z])/ig, (str) => {
+    return str.toUpperCase()
       .replace(`-`, ``)
       .replace(`_`, ``);
   });
