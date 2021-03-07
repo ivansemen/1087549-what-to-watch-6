@@ -1,19 +1,14 @@
-import React, {Fragment, useState, useEffect, useRef} from 'react';
+import React, {Fragment, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 const VideoPlayer = (props) => {
   const {film} = props;
   const {previewVideoLink} = film;
 
-  const [, setIsLoading] = useState(true);
-
   const videoRef = useRef();
 
   useEffect(() => {
-    videoRef.current.oncanplaythrough = () => setIsLoading(false);
-
     return () => {
-      videoRef.current.oncanplaythrough = null;
       videoRef.current = null;
     };
   }, [previewVideoLink]);

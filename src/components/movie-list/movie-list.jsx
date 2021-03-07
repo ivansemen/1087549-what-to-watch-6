@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import MovieCard from '../movie-card/movie-card';
 import PropTypes from 'prop-types';
-import {debounce} from '../../debounce';
+import {debounce} from '../../utils/debounce';
 
 const MovieList = (props) => {
   const {films} = props;
