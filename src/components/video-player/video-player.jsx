@@ -1,21 +1,13 @@
-import React, {Fragment, useEffect, useRef} from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 const VideoPlayer = (props) => {
   const {film} = props;
   const {previewVideoLink} = film;
 
-  const videoRef = useRef();
-
-  useEffect(() => {
-    return () => {
-      videoRef.current = null;
-    };
-  }, [previewVideoLink]);
-
   return (
     <Fragment>
-      <video ref={videoRef} src={previewVideoLink} autoPlay muted ></video>
+      <video src={previewVideoLink} autoPlay muted ></video>
     </Fragment>
   );
 };
