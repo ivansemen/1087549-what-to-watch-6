@@ -6,26 +6,16 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 
 const MovieList = (props) => {
-  const {genre, movieList} = props;
+  const {movieList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
 
   const handleMouseOver = debounce(function (film) {
     setActiveFilm(film.id);
   }, 1000);
 
-  // const filmList = movieList.map((film) =>
-  //   <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>
-  // );
-
-  const filmList = movieList.map((film) => {
-    if (genre === `All genres`) {
-      return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
-    } else if (genre === film.genre) {
-      return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
-    } else {
-      return ``;
-    }
-  });
+  const filmList = movieList().map((film) =>
+    <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>
+  );
 
   return (
     <div className="catalog__movies-list">
@@ -35,14 +25,17 @@ const MovieList = (props) => {
 };
 
 MovieList.propTypes = {
-  genre: PropTypes.string.isRequired,
-  movieList: PropTypes.array.isRequired,
-  getMovieList: PropTypes.func.isRequired,
+  movieList: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
-  movieList: state.movieList
+  movieList: () => {
+    if (state.genre === `All genres`) {
+      return state.movieList;
+    } else {
+      return state.movieList.filter((film) => film.genre === state.genre);
+    }
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({

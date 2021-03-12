@@ -1,37 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ActionCreator} from '../../store/action';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 const GenreList = (props) => {
-  const {films, changeGenre} = props;
-  const [activeGenre, setActiveGenre] = useState(0);
+  const {genres, changeGenre, activeGenre} = props;
 
-  const genres = [`All genres`];
-
-  for (let film of films) {
-    if (!genres.includes(film.genre)) {
-      genres.push(film.genre);
-    }
-  }
-
-  // Пушит в массив только уникальные жанры
-
-  const checkActiveGenre = (index) => {
-    switch (index) {
-      case activeGenre:
-        return `catalog__genres-item catalog__genres-item--active`;
-    }
-    return `catalog__genres-item`;
-  };
-
-  // Проверяет, активный ли элемент фильтрации
-
-  const genreList = genres.map((genre, index) => {
+  const genreList = genres().map((genre, index) => {
     return (
-      <li className={checkActiveGenre(index)} key={index} onClick={(evt) => {
+      <li className={genre === activeGenre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item`} key={index} onClick={(evt) => {
         evt.preventDefault();
-        setActiveGenre(index);
         changeGenre(genre);
       }}>
         <a href="#" className="catalog__genres-link">{genre}</a>
@@ -48,14 +26,24 @@ const GenreList = (props) => {
 };
 
 GenreList.propTypes = {
-  films: PropTypes.array.isRequired,
-  genre: PropTypes.string.isRequired,
+  genres: PropTypes.func.isRequired,
   changeGenre: PropTypes.func.isRequired,
+  activeGenre: PropTypes.string.isRequired,
 };
 
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
+  genres: () => {
+    const genres = [`All genres`];
+
+    for (let film of state.movieList) {
+      if (!genres.includes(film.genre)) {
+        genres.push(film.genre);
+      }
+    }
+    return genres;
+  },
+  activeGenre: state.genre
 });
 
 const mapDispatchToProps = (dispatch) => ({
