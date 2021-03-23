@@ -2,20 +2,22 @@ import React, {useState} from 'react';
 import Overview from '../overview/overview';
 import Details from '../details/details';
 import Reviews from '../reviews/reviews';
+import PropTypes from 'prop-types';
 
-const Tabs = () => {
+const Tabs = (props) => {
+  const {film} = props;
   const [activeTab, setActiveTab] = useState(1);
 
   const chooseTab = () => {
     switch (activeTab) {
       case 1:
-        return <Overview/>;
+        return <Overview film={film}/>;
       case 2:
-        return <Details/>;
+        return <Details film={film}/>;
       case 3:
         return <Reviews/>;
       default:
-        return <Overview/>;
+        return <Overview film={film}/>;
     }
   };
 
@@ -51,5 +53,8 @@ const Tabs = () => {
   );
 };
 
-
 export default Tabs;
+
+Tabs.propTypes = {
+  film: PropTypes.object.isRequired,
+};

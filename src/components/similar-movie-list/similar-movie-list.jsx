@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
 import MovieCard from '../movie-card/movie-card';
-import {ActionCreator} from '../../store/action';
-import {connect} from 'react-redux';
 import {debounce} from '../../utils/debounce';
 import PropTypes from 'prop-types';
 
 const SimilarMovieList = (props) => {
-  const {movieList} = props;
+  const {films, film} = props;
   const [activeFilm, setActiveFilm] = useState(0);
 
-  const handleMouseOver = debounce(function (film) {
-    setActiveFilm(film.id);
+  const movieList = films.filter((movie) => movie.genre === film.genre);
+
+  const handleMouseOver = debounce(function (movie) {
+    setActiveFilm(movie.id);
   }, 1000);
 
   const filmList = [];
 
-  for (let i = 0; i < movieList().length; i++) {
-    filmList.push(<MovieCard film={movieList()[i]} key={movieList()[i].id} onmouseover={() => handleMouseOver(movieList()[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
+  for (let i = 0; i < movieList.length; i++) {
+    filmList.push(<MovieCard film={movieList[i]} key={movieList[i].id} onmouseover={() => handleMouseOver(movieList[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
   }
 
   return (
@@ -26,21 +26,9 @@ const SimilarMovieList = (props) => {
   );
 };
 
+export default SimilarMovieList;
 
 SimilarMovieList.propTypes = {
-  movieList: PropTypes.func.isRequired,
+  films: PropTypes.array.isRequired,
+  film: PropTypes.object.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  movieList: () => {
-    return state.movieList.filter((film) => film.genre === state.firstFilm.genre);
-  }
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getMovieList(movieList) {
-    dispatch(ActionCreator.getMovieList(movieList));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SimilarMovieList);

@@ -5,7 +5,7 @@ import SimilarMovieList from '../similar-movie-list/similar-movie-list';
 import Tabs from '../tabs/tabs';
 
 const Film = (props) => {
-  const {firstFilm} = props;
+  const {firstFilm, films} = props;
   const {id} = firstFilm;
 
   return (
@@ -68,7 +68,7 @@ const Film = (props) => {
             </div>
 
             <div className="movie-card__desc">
-              <Tabs/>
+              <Tabs film={firstFilm}/>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ const Film = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <SimilarMovieList/>
+          <SimilarMovieList films={films} film={firstFilm}/>
         </section>
 
         <footer className="page-footer">
@@ -102,6 +102,7 @@ Film.propTypes = {
   firstFilm: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
+  films: PropTypes.array.isRequired,
 };
 
 
