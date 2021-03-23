@@ -6,7 +6,7 @@ const correctFilms = movieListMock.map((film) => keysToCamel(film));
 
 const initialState = {
   genre: `All genres`,
-  movieList: correctFilms,
+  movieList: correctFilms
 };
 
 const reducer = (state = initialState, action) => {

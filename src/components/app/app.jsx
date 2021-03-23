@@ -26,7 +26,7 @@ const App = (props) => {
           <MyList films={films}/>
         </Route>
         <Route exact path="/films/:id">
-          <Film firstFilm={firstFilm}/>
+          <Film firstFilm={firstFilm} films={films}/>
         </Route>
         <Route exact path="/films/:id/review">
           <AddReview firstFilm={firstFilm}/>
