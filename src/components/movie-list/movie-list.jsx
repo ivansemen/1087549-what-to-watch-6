@@ -5,25 +5,24 @@ import {debounce} from '../../utils/debounce';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import ShowMore from '../show-more/show-more';
+import {NUMBER_FILMS} from '../../const';
 
 const MovieList = (props) => {
   const {movieList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
-  const [films, setFilms] = useState(8);
+  const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
   const handleMouseOver = debounce(function (film) {
     setActiveFilm(film.id);
   }, 1000);
 
-  const NUMBER_FILMS = 8;
-
-  const filmList = movieList.slice(0, films).map((film) => {
+  const filmList = movieList.slice(0, filmsCount).map((film) => {
     return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
   }
   );
 
   const handleShowMore = () => {
-    setFilms(films + Math.min(NUMBER_FILMS, movieList.length - films));
+    setFilmsCount(filmsCount + Math.min(NUMBER_FILMS, movieList.length - filmsCount));
   };
 
   return (
@@ -31,7 +30,7 @@ const MovieList = (props) => {
       <div className="catalog__movies-list">
         {filmList}
       </div>
-      {movieList.length > films ? <ShowMore onclick={handleShowMore}/> : ``}
+      {movieList.length > filmsCount ? <ShowMore onclick={handleShowMore}/> : ``}
     </React.Fragment>
   );
 };
