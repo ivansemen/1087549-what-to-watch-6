@@ -13,13 +13,11 @@ const MovieList = (props) => {
   const [activeFilm, setActiveFilm] = useState(0);
   const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
-  const correctFilms = movieList.map((movie) => keysToCamel(movie));
-
   const handleMouseOver = debounce(function (film) {
     setActiveFilm(film.id);
   }, 1000);
 
-  const filmList = correctFilms.slice(0, filmsCount).map((film) => {
+  const filmList = movieList.slice(0, filmsCount).map((film) => {
     return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
   }
   );
@@ -43,7 +41,7 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: state.genre === `All genres` ? state.movieList : state.movieList.filter((film) => film.genre === state.genre)
+  movieList: state.genre === `All genres` ? state.movieList.map((movie) => keysToCamel(movie)) : state.movieList.map((movie) => keysToCamel(movie)).filter((film) => film.genre === state.genre)
 });
 
 const mapDispatchToProps = (dispatch) => ({

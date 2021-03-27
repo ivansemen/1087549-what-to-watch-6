@@ -15,13 +15,10 @@ import {keysToCamel} from '../../utils/utils';
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
-  const correctFilms = movieList.map((movie) => keysToCamel(movie));
-  const [firstFilm] = correctFilms;
+  const [firstFilm] = movieList;
 
   useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
-    }
+    onLoadData();
   }, [isDataLoaded]);
 
   if (!isDataLoaded) {
@@ -34,16 +31,16 @@ const App = (props) => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreeen films={correctFilms} firstFilm={firstFilm}/>
+          <MainScreeen films={movieList} firstFilm={firstFilm}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
         </Route>
         <Route exact path="/mylist">
-          <MyList films={correctFilms}/>
+          <MyList films={movieList}/>
         </Route>
         <Route exact path="/films/:id">
-          <Film firstFilm={firstFilm} films={correctFilms}/>
+          <Film firstFilm={firstFilm} films={movieList}/>
         </Route>
         <Route exact path="/films/:id/review">
           <AddReview firstFilm={firstFilm}/>
@@ -66,7 +63,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: state.movieList,
+  movieList: state.movieList.map((movie) => keysToCamel(movie)),
   isDataLoaded: state.isDataLoaded,
 });
 
