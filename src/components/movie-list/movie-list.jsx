@@ -6,17 +6,20 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import ShowMore from '../show-more/show-more';
 import {NUMBER_FILMS} from '../../const';
+import {keysToCamel} from '../../utils/utils';
 
 const MovieList = (props) => {
   const {movieList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
   const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
+  const correctFilms = movieList.map((movie) => keysToCamel(movie));
+
   const handleMouseOver = debounce(function (film) {
     setActiveFilm(film.id);
   }, 1000);
 
-  const filmList = movieList.slice(0, filmsCount).map((film) => {
+  const filmList = correctFilms.slice(0, filmsCount).map((film) => {
     return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
   }
   );
