@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MainScreeen from '../main-screen/main-screen';
 import PropTypes from 'prop-types';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
@@ -8,25 +8,39 @@ import MyList from '../my-list/my-list';
 import NotFound from '../not-found/not-found';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {fetchMovieList} from "../../store/api-actions";
+import {connect} from 'react-redux';
+import {keysToCamel} from '../../utils/utils';
 
 const App = (props) => {
-  const {films} = props;
-  const [firstFilm] = films;
+  const {movieList, isDataLoaded, onLoadData} = props;
+  const [firstFilm] = movieList;
+
+  useEffect(() => {
+    onLoadData();
+  }, []);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreeen films={films} firstFilm={firstFilm}/>
+          <MainScreeen films={movieList} firstFilm={firstFilm}/>
         </Route>
         <Route exact path="/login">
           <SignIn/>
         </Route>
         <Route exact path="/mylist">
-          <MyList films={films}/>
+          <MyList films={movieList}/>
         </Route>
         <Route exact path="/films/:id">
-          <Film firstFilm={firstFilm} films={films}/>
+          <Film firstFilm={firstFilm} films={movieList}/>
         </Route>
         <Route exact path="/films/:id/review">
           <AddReview firstFilm={firstFilm}/>
@@ -42,8 +56,22 @@ const App = (props) => {
   );
 };
 
-export default App;
-
 App.propTypes = {
-  films: PropTypes.array.isRequired,
+  movieList: PropTypes.array.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movieList: state.movieList.map((movie) => keysToCamel(movie)),
+  isDataLoaded: state.isDataLoaded,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchMovieList());
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

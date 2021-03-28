@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import ShowMore from '../show-more/show-more';
 import {NUMBER_FILMS} from '../../const';
+import {keysToCamel} from '../../utils/utils';
 
 const MovieList = (props) => {
   const {movieList} = props;
@@ -40,7 +41,7 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: state.genre === `All genres` ? state.movieList : state.movieList.filter((film) => film.genre === state.genre)
+  movieList: state.genre === `All genres` ? state.movieList.map((movie) => keysToCamel(movie)) : state.movieList.map((movie) => keysToCamel(movie)).filter((film) => film.genre === state.genre)
 });
 
 const mapDispatchToProps = (dispatch) => ({
