@@ -12,6 +12,8 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchMovieList} from "../../store/api-actions";
 import {connect} from 'react-redux';
 import {keysToCamel} from '../../utils/utils';
+import PrivateRoute from '../private-route/private-route';
+import {AppRoute} from '../../const';
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
@@ -30,22 +32,25 @@ const App = (props) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT}>
           <MainScreeen films={movieList} firstFilm={firstFilm}/>
         </Route>
-        <Route exact path="/login">
+        <Route exact path={AppRoute.LOGIN}>
           <SignIn/>
         </Route>
-        <Route exact path="/mylist">
-          <MyList films={movieList}/>
-        </Route>
-        <Route exact path="/films/:id">
+        <PrivateRoute exact
+          path={AppRoute.LIST}
+          render={() => <MyList films={movieList}/>}
+        >
+        </PrivateRoute>
+        <Route exact path={AppRoute.FILM}>
           <Film firstFilm={firstFilm} films={movieList}/>
         </Route>
-        <Route exact path="/films/:id/review">
-          <AddReview firstFilm={firstFilm}/>
-        </Route>
-        <Route exact path="/player/:id">
+        <PrivateRoute exact
+          path={AppRoute.REVIEW}
+          render={() => <AddReview firstFilm={firstFilm}/>}
+        ></PrivateRoute>
+        <Route exact path={AppRoute.PLAYER}>
           <Player firstFilm={firstFilm}/>
         </Route>
         <Route>
