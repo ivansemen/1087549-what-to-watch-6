@@ -2,10 +2,25 @@ import React from 'react';
 import MovieList from '../movie-list/movie-list';
 import PropTypes from 'prop-types';
 import GenreList from '../genre-list/genre-list';
+import {AuthorizationStatus} from '../../const';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const MainScreeen = (props) => {
-  const {films, firstFilm} = props;
+  const {films, firstFilm, authorizationStatus} = props;
   const {name, genre, posterImage, released} = firstFilm;
+
+  const history = useHistory();
+
+  const checkAuthorizationStatus = () => {
+    return (
+      authorizationStatus === AuthorizationStatus.AUTH ?
+        <div className="user-block__avatar" onClick={() => history.push(`/mylist`)}>
+          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+        </div> : <Link className="user-block__link" to={`/login`}>Sign in</Link>
+    );
+  };
 
   return (
     <React.Fragment>
@@ -26,9 +41,7 @@ const MainScreeen = (props) => {
           </div>
 
           <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
+            {checkAuthorizationStatus()}
           </div>
         </header>
 
@@ -89,8 +102,6 @@ const MainScreeen = (props) => {
   );
 };
 
-export default MainScreeen;
-
 
 MainScreeen.propTypes = {
   firstFilm: PropTypes.shape({
@@ -100,4 +111,13 @@ MainScreeen.propTypes = {
     posterImage: PropTypes.string.isRequired,
   }).isRequired,
   films: PropTypes.array.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+});
+
+
+export {MainScreeen};
+export default connect(mapStateToProps)(MainScreeen);

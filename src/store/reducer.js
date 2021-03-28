@@ -1,9 +1,11 @@
 import {ActionType} from './action';
+import {AuthorizationStatus} from '../const';
 
 const initialState = {
   genre: `All genres`,
   movieList: [],
-  isDataLoaded: false
+  isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,6 +20,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         movieList: action.movieList,
         isDataLoaded: true
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
   }
 
