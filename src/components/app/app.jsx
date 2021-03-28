@@ -19,7 +19,7 @@ const App = (props) => {
 
   useEffect(() => {
     onLoadData();
-  });
+  }, []);
 
   if (!isDataLoaded) {
     return (
