@@ -1,19 +1,56 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SimilarMovieList from '../similar-movie-list/similar-movie-list';
 import Tabs from '../tabs/tabs';
+import {fetchMovie} from "../../store/api-actions";
+import {connect} from 'react-redux';
+import {keysToCamel} from '../../utils/utils';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {AuthorizationStatus} from '../../const';
 
 const Film = (props) => {
-  const {firstFilm, films} = props;
-  const {id} = firstFilm;
+  const {onLoadData, movie, films, isMovieLoaded, authorizationStatus, onAvatarButtonClick} = props;
+  const {id} = useParams();
+  const {name, genre, released, posterImage, backgroundImage} = movie;
+
+  // убирает : у id
+
+  let idNumber = id.replace(/^:+/, ``);
+  idNumber = +idNumber;
+
+  useEffect(() => {
+    onLoadData(idNumber);
+  }, [idNumber]);
+
+  if (!isMovieLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const checkAuthorizationStatus = () => {
+    return (
+      authorizationStatus === AuthorizationStatus.AUTH ?
+        <div className="user-block__avatar" onClick={() => onAvatarButtonClick()}>
+          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+        </div> : <Link className="user-block__link" to={`/login`}>Sign in</Link>
+    );
+  };
+
+  const checkAuthReview = () => {
+    return (
+      authorizationStatus === AuthorizationStatus.AUTH ?
+        <Link to={`/films/${id}/review`} className="btn movie-card__button">Add review</Link> : ``
+    );
+  };
 
   return (
     <React.Fragment>
       <section className="movie-card movie-card--full">
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={backgroundImage} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -28,18 +65,16 @@ const Film = (props) => {
             </div>
 
             <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              {checkAuthorizationStatus()}
             </div>
           </header>
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="movie-card__title">{name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">Drama</span>
-                <span className="movie-card__year">2014</span>
+                <span className="movie-card__genre">{genre}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -55,7 +90,7 @@ const Film = (props) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/:${id}/review`} className="btn movie-card__button">Add review</Link>
+                {checkAuthReview()}
               </div>
             </div>
           </div>
@@ -64,11 +99,11 @@ const Film = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
-              <Tabs film={firstFilm}/>
+              <Tabs film={movie}/>
             </div>
           </div>
         </div>
@@ -77,7 +112,7 @@ const Film = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <SimilarMovieList films={films} film={firstFilm}/>
+          <SimilarMovieList films={films} film={movie}/>
         </section>
 
         <footer className="page-footer">
@@ -99,11 +134,26 @@ const Film = (props) => {
 };
 
 Film.propTypes = {
-  firstFilm: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  movie: PropTypes.object.isRequired,
   films: PropTypes.array.isRequired,
+  isMovieLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  onAvatarButtonClick: PropTypes.func.isRequired,
 };
 
 
-export default Film;
+const mapStateToProps = (state) => ({
+  movie: keysToCamel(state.movie),
+  isMovieLoaded: state.isMovieLoaded,
+  authorizationStatus: state.authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData(id) {
+    dispatch(fetchMovie(id));
+  },
+});
+
+export {Film};
+export default connect(mapStateToProps, mapDispatchToProps)(Film);

@@ -5,18 +5,15 @@ import GenreList from '../genre-list/genre-list';
 import {AuthorizationStatus} from '../../const';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {useHistory} from 'react-router-dom';
 
 const MainScreeen = (props) => {
-  const {films, firstFilm, authorizationStatus} = props;
-  const {name, genre, posterImage, released} = firstFilm;
-
-  const history = useHistory();
+  const {films, firstFilm, authorizationStatus, onAvatarButtonClick, onFilmButtonClick} = props;
+  const {name, genre, posterImage, released, backgroundImage} = firstFilm;
 
   const checkAuthorizationStatus = () => {
     return (
       authorizationStatus === AuthorizationStatus.AUTH ?
-        <div className="user-block__avatar" onClick={() => history.push(`/mylist`)}>
+        <div className="user-block__avatar" onClick={() => onAvatarButtonClick()}>
           <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
         </div> : <Link className="user-block__link" to={`/login`}>Sign in</Link>
     );
@@ -26,7 +23,7 @@ const MainScreeen = (props) => {
     <React.Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt="The Grand Budapest Hotel" />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -81,7 +78,7 @@ const MainScreeen = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList films={films}/>
-          <MovieList films={films}/>
+          <MovieList films={films} onFilmButtonClick={onFilmButtonClick}/>
         </section>
 
         <footer className="page-footer">
@@ -109,9 +106,12 @@ MainScreeen.propTypes = {
     genre: PropTypes.string.isRequired,
     released: PropTypes.number.isRequired,
     posterImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
   }).isRequired,
   films: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
+  onAvatarButtonClick: PropTypes.func.isRequired,
+  onFilmButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -1,14 +1,11 @@
 import React, {useRef} from 'react';
-import {useHistory} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 
-const SignIn = ({onSubmit}) => {
+const SignIn = ({onSubmit, onSubmitButtonClick}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -17,6 +14,7 @@ const SignIn = ({onSubmit}) => {
       login: loginRef.current.value,
       password: passwordRef.current.value,
     });
+    onSubmitButtonClick();
   };
 
   return (
@@ -46,7 +44,7 @@ const SignIn = ({onSubmit}) => {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit" onClick={() => history.push(`/`)}>Sign in</button>
+            <button className="sign-in__btn" type="submit" onClick={handleSubmit}>Sign in</button>
           </div>
         </form>
       </div>
@@ -70,6 +68,7 @@ const SignIn = ({onSubmit}) => {
 
 SignIn.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  onSubmitButtonClick: PropTypes.func.isRequired,
 };
 
 

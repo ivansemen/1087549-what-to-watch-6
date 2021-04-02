@@ -2,21 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player';
-import {useHistory} from 'react-router-dom';
 
 const MovieCard = (props) => {
-  const {film, onmouseover, onmouseout, activeFilm} = props;
+  const {film, onmouseover, onmouseout, activeFilm, onFilmButtonClick} = props;
   const {id, name, posterImage} = film;
-
-  const history = useHistory();
 
   return (
     <article className="small-movie-card catalog__movies-card" onMouseOver={onmouseover} onMouseOut={onmouseout}>
-      <div className="small-movie-card__image" onClick={() => history.push(`/films/:${id}`)}>
+      <div className="small-movie-card__image" onClick={() => onFilmButtonClick(id)}>
         {id === activeFilm ? <VideoPlayer film={film}/> : <img src={posterImage} alt={name} width="280" height="175" />}
       </div>
       <h3 className="small-movie-card__title">
-        <Link className="small-movie-card__link" to={`/films/:${id}`}>{name}</Link>
+        <Link className="small-movie-card__link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
@@ -34,4 +31,5 @@ MovieCard.propTypes = {
   onmouseover: PropTypes.func.isRequired,
   onmouseout: PropTypes.func.isRequired,
   activeFilm: PropTypes.number.isRequired,
+  onFilmButtonClick: PropTypes.func.isRequired,
 };
