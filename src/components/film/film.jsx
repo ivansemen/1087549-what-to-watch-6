@@ -8,35 +8,22 @@ import {connect} from 'react-redux';
 import {keysToCamel} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
+import Avatar from '../avatar/avatar';
 
 const Film = (props) => {
-  const {onLoadData, movie, films, isMovieLoaded, authorizationStatus, onAvatarButtonClick} = props;
+  const {onLoadData, movie, films, isMovieLoaded, authorizationStatus} = props;
   const {id} = useParams();
   const {name, genre, released, posterImage, backgroundImage} = movie;
 
-  // убирает : у id
-
-  let idNumber = id.replace(/^:+/, ``);
-  idNumber = +idNumber;
-
   useEffect(() => {
-    onLoadData(idNumber);
-  }, [idNumber]);
+    onLoadData(id);
+  }, [id]);
 
   if (!isMovieLoaded) {
     return (
       <LoadingScreen />
     );
   }
-
-  const checkAuthorizationStatus = () => {
-    return (
-      authorizationStatus === AuthorizationStatus.AUTH ?
-        <div className="user-block__avatar" onClick={() => onAvatarButtonClick()}>
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-        </div> : <Link className="user-block__link" to={`/login`}>Sign in</Link>
-    );
-  };
 
   const checkAuthReview = () => {
     return (
@@ -63,10 +50,7 @@ const Film = (props) => {
                 <span className="logo__letter logo__letter--3">W</span>
               </Link>
             </div>
-
-            <div className="user-block">
-              {checkAuthorizationStatus()}
-            </div>
+            <Avatar/>
           </header>
 
           <div className="movie-card__wrap">
@@ -139,7 +123,6 @@ Film.propTypes = {
   films: PropTypes.array.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  onAvatarButtonClick: PropTypes.func.isRequired,
 };
 
 

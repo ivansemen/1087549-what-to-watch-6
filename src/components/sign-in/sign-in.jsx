@@ -2,8 +2,9 @@ import React, {useRef} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
+import browserHistory from "../../browser-history";
 
-const SignIn = ({onSubmit, onSubmitButtonClick}) => {
+const SignIn = ({onSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
@@ -14,7 +15,7 @@ const SignIn = ({onSubmit, onSubmitButtonClick}) => {
       login: loginRef.current.value,
       password: passwordRef.current.value,
     });
-    onSubmitButtonClick();
+    browserHistory.push(`/`);
   };
 
   return (

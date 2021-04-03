@@ -33,40 +33,20 @@ const App = (props) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact
-          path={AppRoute.ROOT}
-          render={({history}) => (
-            <MainScreeen
-              onAvatarButtonClick={() => history.push(`/mylist`)}
-              onFilmButtonClick={(id) => history.push(`/films/:${id}`)}
-              films={movieList}
-              firstFilm={firstFilm}
-            />
-          )}
-        />
-        <Route exact
-          path={AppRoute.LOGIN}
-          render={({history}) => (
-            <SignIn
-              onSubmitButtonClick={() => history.push(`/`)}
-            />
-          )}
-        />
+        <Route exact path={AppRoute.ROOT}>
+          <MainScreeen films={movieList} firstFilm={firstFilm}/>
+        </Route>
+        <Route exact path={AppRoute.LOGIN}>
+          <SignIn/>
+        </Route>
         <PrivateRoute exact
           path={AppRoute.LIST}
           render={() => <MyList films={movieList}/>}
         >
         </PrivateRoute>
-
-        <Route exact
-          path={AppRoute.FILM}
-          render={({history}) => (
-            <Film
-              onAvatarButtonClick={() => history.push(`/mylist`)}
-              films={movieList}
-            />
-          )}
-        />
+        <Route exact path={AppRoute.FILM}>
+          <Film firstFilm={firstFilm} films={movieList}/>
+        </Route>
         <PrivateRoute exact
           path={AppRoute.REVIEW}
           render={() => <AddReview firstFilm={firstFilm}/>}

@@ -12,13 +12,8 @@ const ReviewForm = ({onSubmit}) => {
 
   const {id} = useParams();
 
-  // убирает : у id
-
-  let idNumber = id.replace(/^:+/, ``);
-  idNumber = +idNumber;
-
   const handleFieldChange = (evt) => {
-    setUserForm({...userForm, comment: evt.target.comment});
+    setUserForm({...userForm, comment: evt.target.value});
   };
 
   const handleRadioChange = (evt) => {
@@ -28,7 +23,7 @@ const ReviewForm = ({onSubmit}) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit(idNumber, {
+    onSubmit(id, {
       rating: userForm.rating,
       comment: userForm.comment,
     });

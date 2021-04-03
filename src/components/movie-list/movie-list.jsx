@@ -9,7 +9,7 @@ import {NUMBER_FILMS} from '../../const';
 import {keysToCamel} from '../../utils/utils';
 
 const MovieList = (props) => {
-  const {movieList, onFilmButtonClick} = props;
+  const {movieList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
   const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
@@ -18,7 +18,7 @@ const MovieList = (props) => {
   }, 1000);
 
   const filmList = movieList.slice(0, filmsCount).map((film) => {
-    return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm} onFilmButtonClick={onFilmButtonClick}/>;
+    return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
   }
   );
 
@@ -38,7 +38,6 @@ const MovieList = (props) => {
 
 MovieList.propTypes = {
   movieList: PropTypes.array.isRequired,
-  onFilmButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
