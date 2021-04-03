@@ -1,21 +1,32 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {review} from "../../store/api-actions";
+import PropTypes from 'prop-types';
 
-const ReviewForm = () => {
+const ReviewForm = ({onSubmit}) => {
   const [userForm, setUserForm] = useState({
-    value: ``,
+    comment: ``,
     rating: ``
   });
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-  };
+  const {id} = useParams();
 
   const handleFieldChange = (evt) => {
-    setUserForm({...userForm, value: evt.target.value});
+    setUserForm({...userForm, comment: evt.target.value});
   };
 
   const handleRadioChange = (evt) => {
     setUserForm({...userForm, rating: evt.target.value});
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    onSubmit(id, {
+      rating: userForm.rating,
+      comment: userForm.comment,
+    });
   };
 
   return (
@@ -65,4 +76,16 @@ const ReviewForm = () => {
   );
 };
 
-export default ReviewForm;
+ReviewForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(id, commentData) {
+    dispatch(review(id, commentData));
+  }
+});
+
+export {ReviewForm};
+export default connect(null, mapDispatchToProps)(ReviewForm);
