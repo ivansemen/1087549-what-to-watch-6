@@ -2,8 +2,7 @@ import React from 'react';
 import {changeGenre} from '../../store/action';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getActiveGenre} from '../../store/process/selectors';
-import {getMovieList} from '../../store/movies-data/selectors';
+import {getMovieList, getActiveGenre} from '../../store/movies-data/selectors';
 
 const GenreList = (props) => {
   const {genres, changeActiveGenre, activeGenre} = props;

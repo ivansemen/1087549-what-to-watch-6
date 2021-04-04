@@ -9,6 +9,7 @@ const initialState = {
   isCommentsLoaded: false,
   promoFilm: {},
   isPromoFilmLoaded: false,
+  genre: `All genres`,
 };
 
 const moviesData = (state = initialState, action) => {
@@ -36,6 +37,11 @@ const moviesData = (state = initialState, action) => {
         ...state,
         promoFilm: action.promoFilm,
         isPromoFilmLoaded: true,
+      };
+    case ActionType.CHANGE_GENRE:
+      return {
+        ...state,
+        genre: action.genre,
       };
   }
 
