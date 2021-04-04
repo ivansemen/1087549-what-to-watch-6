@@ -15,6 +15,7 @@ import {keysToCamel} from '../../utils/utils';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
+import {getMovieList, getLoadedDataStatus} from '../../store/movies-data/selectors';
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
@@ -69,8 +70,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: state.movieList.map((movie) => keysToCamel(movie)),
-  isDataLoaded: state.isDataLoaded,
+  movieList: getMovieList(state).map((movie) => keysToCamel(movie)),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

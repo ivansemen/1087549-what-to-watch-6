@@ -95,7 +95,6 @@ MainScreeen.propTypes = {
     backgroundImage: PropTypes.string.isRequired,
   }).isRequired,
   films: PropTypes.array.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
 };
 
 

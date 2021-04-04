@@ -1,0 +1,6 @@
+import {NameSpace} from '../root-reducer';
+
+export const getMovieList = (state) => state[NameSpace.DATA].movieList;
+export const getLoadedDataStatus = (state) => state[NameSpace.DATA].isDataLoaded;
+export const getMovie = (state) => state[NameSpace.DATA].movie;
+export const getLoadedMovieStatus = (state) => state[NameSpace.DATA].isMovieLoaded;

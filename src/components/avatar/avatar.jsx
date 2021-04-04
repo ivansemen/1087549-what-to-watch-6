@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {AuthorizationStatus} from '../../const';
 import browserHistory from "../../browser-history";
 import {Link} from 'react-router-dom';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 const Avatar = (props) => {
 
@@ -31,7 +32,7 @@ Avatar.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 export {Avatar};

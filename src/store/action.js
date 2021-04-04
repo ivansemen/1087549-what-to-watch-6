@@ -7,29 +7,32 @@ export const ActionType = {
   SEND_COMMENT: `SEND_COMMENT`,
 };
 
-export const ActionCreator = {
-  changeGenre: (genre) => ({
-    type: ActionType.CHANGE_GENRE,
-    genre,
-  }),
-  getMovieList: (movieList) => ({
-    type: ActionType.GET_MOVIE_LIST,
-    movieList,
-  }),
-  getMovie: (movie) => ({
-    type: ActionType.GET_MOVIE,
-    movie,
-  }),
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url,
-  }),
-  sendComment: (comment) => ({
-    type: ActionType.SEND_COMMENT,
-    comment,
-  }),
-};
+export const changeGenre = (genre) => ({
+  type: ActionType.CHANGE_GENRE,
+  genre,
+});
+
+export const getMovie = (movie) => ({
+  type: ActionType.GET_MOVIE,
+  movie,
+});
+
+export const getMovieList = (movieList) => ({
+  type: ActionType.GET_MOVIE_LIST,
+  movieList,
+});
+
+export const requireAuthorization = (status) => ({
+  type: ActionType.REQUIRED_AUTHORIZATION,
+  payload: status,
+});
+
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url,
+});
+
+export const sendComment = (comment) => ({
+  type: ActionType.SEND_COMMENT,
+  comment,
+});
