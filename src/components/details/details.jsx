@@ -5,8 +5,8 @@ const Details = (props) => {
   const {film} = props;
   const {starring, director, runTime, genre, released} = film;
 
-  const starringArray = starring.map((star) => {
-    return <>{star},<br/></>;
+  const starringArray = starring.map((star, index) => {
+    return <React.Fragment key={index}>{star},<br/></React.Fragment>;
   });
 
   return (

@@ -3,18 +3,34 @@ import PropTypes from 'prop-types';
 
 const Overview = (props) => {
   const {film} = props;
-  const {description, director, starring} = film;
+  const {description, director, starring, rating} = film;
 
   const starringArray = starring.map((star) => {
     return star + `, `;
   });
 
+  const convertRatingToText = () => {
+    let textRating;
+    if (rating < 3) {
+      textRating = `Bad`;
+    } else if (rating > 3 && rating <= 5) {
+      textRating = `Normal`;
+    } else if (rating > 5 && rating <= 8) {
+      textRating = `Good`;
+    } else if (rating > 8 && rating < 10) {
+      textRating = `Very good`;
+    } else if (rating === 10) {
+      textRating = `Awesome`;
+    }
+    return textRating;
+  };
+
   return (
     <React.Fragment>
       <div className="movie-rating">
-        <div className="movie-rating__score">8,9</div>
+        <div className="movie-rating__score">{rating}</div>
         <p className="movie-rating__meta">
-          <span className="movie-rating__level">Very good</span>
+          <span className="movie-rating__level">{convertRatingToText()}</span>
           <span className="movie-rating__count">240 ratings</span>
         </p>
       </div>
@@ -37,5 +53,6 @@ Overview.propTypes = {
     description: PropTypes.string.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.array.isRequired,
+    rating: PropTypes.number.isRequired,
   }).isRequired,
 };
