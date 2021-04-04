@@ -4,3 +4,5 @@ export const getMovieList = (state) => state[NameSpace.DATA].movieList;
 export const getLoadedDataStatus = (state) => state[NameSpace.DATA].isDataLoaded;
 export const getMovie = (state) => state[NameSpace.DATA].movie;
 export const getLoadedMovieStatus = (state) => state[NameSpace.DATA].isMovieLoaded;
+export const getComments = (state) => state[NameSpace.DATA].comments;
+export const getLoadedComments = (state) => state[NameSpace.DATA].isCommentsLoaded;

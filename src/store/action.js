@@ -5,6 +5,7 @@ export const ActionType = {
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   REDIRECT_TO_ROUTE: `game/redirectToRoute`,
   SEND_COMMENT: `SEND_COMMENT`,
+  GET_COMMENTS: `GET_COMMENTS`,
 };
 
 export const changeGenre = (genre) => ({
@@ -35,4 +36,9 @@ export const redirectToRoute = (url) => ({
 export const sendComment = (comment) => ({
   type: ActionType.SEND_COMMENT,
   comment,
+});
+
+export const getComments = (comments) => ({
+  type: ActionType.GET_COMMENTS,
+  comments,
 });

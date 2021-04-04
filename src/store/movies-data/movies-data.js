@@ -5,6 +5,8 @@ const initialState = {
   isDataLoaded: false,
   movie: {},
   isMovieLoaded: false,
+  comments: [],
+  isCommentsLoaded: false,
 };
 
 const moviesData = (state = initialState, action) => {
@@ -13,13 +15,19 @@ const moviesData = (state = initialState, action) => {
       return {
         ...state,
         movieList: action.movieList,
-        isDataLoaded: true
+        isDataLoaded: true,
       };
     case ActionType.GET_MOVIE:
       return {
         ...state,
         movie: action.movie,
-        isMovieLoaded: true
+        isMovieLoaded: true,
+      };
+    case ActionType.GET_COMMENTS:
+      return {
+        ...state,
+        comments: action.comments,
+        isCommentsLoaded: true,
       };
   }
 

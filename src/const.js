@@ -18,3 +18,5 @@ export const APIRoute = {
   FILMS: `/films`,
   LOGIN: `/login`
 };
+
+export const NUMBER_SIMILAR_FILMS = 4;
