@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 import browserHistory from "../../browser-history";
+import {Link} from 'react-router-dom';
 
 const SignIn = ({onSubmit}) => {
   const loginRef = useRef();
@@ -22,11 +23,11 @@ const SignIn = ({onSubmit}) => {
     <div className="user-page">
       <header className="page-header user-page__head">
         <div className="logo">
-          <a href="main.html" className="logo__link">
+          <Link to="/" className="logo__link">
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
-          </a>
+          </Link>
         </div>
 
         <h1 className="page-title user-page__title">Sign in</h1>

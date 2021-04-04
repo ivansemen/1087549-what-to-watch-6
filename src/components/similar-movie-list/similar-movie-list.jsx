@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import MovieCard from '../movie-card/movie-card';
 import {debounce} from '../../utils/debounce';
 import PropTypes from 'prop-types';
+import {NUMBER_SIMILAR_FILMS} from '../../const';
 
 const SimilarMovieList = (props) => {
   const {films, film} = props;
@@ -14,6 +15,10 @@ const SimilarMovieList = (props) => {
   }, 1000);
 
   const filmList = [];
+
+  if (movieList.length > NUMBER_SIMILAR_FILMS) {
+    movieList.length = 4;
+  }
 
   for (let i = 0; i < movieList.length; i++) {
     filmList.push(<MovieCard film={movieList[i]} key={movieList[i].id} onmouseover={() => handleMouseOver(movieList[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);

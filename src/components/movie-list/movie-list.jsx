@@ -3,10 +3,9 @@ import MovieCard from '../movie-card/movie-card';
 import PropTypes from 'prop-types';
 import {debounce} from '../../utils/debounce';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
 import ShowMore from '../show-more/show-more';
 import {NUMBER_FILMS} from '../../const';
-import {keysToCamel} from '../../utils/utils';
+import {getFilteredFilms, getMovieList} from '../../store/movies-data/selectors';
 
 const MovieList = (props) => {
   const {movieList} = props;
@@ -41,12 +40,12 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: state.genre === `All genres` ? state.movieList.map((movie) => keysToCamel(movie)) : state.movieList.map((movie) => keysToCamel(movie)).filter((film) => film.genre === state.genre)
+  movieList: getFilteredFilms(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getMovieList(movieList) {
-    dispatch(ActionCreator.getMovieList(movieList));
+    dispatch(getMovieList(movieList));
   },
 });
 

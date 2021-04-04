@@ -9,6 +9,8 @@ import {keysToCamel} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
 import Avatar from '../avatar/avatar';
+import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 const Film = (props) => {
   const {onLoadData, movie, films, isMovieLoaded, authorizationStatus} = props;
@@ -127,9 +129,9 @@ Film.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  movie: keysToCamel(state.movie),
-  isMovieLoaded: state.isMovieLoaded,
-  authorizationStatus: state.authorizationStatus,
+  movie: keysToCamel(getMovie(state)),
+  isMovieLoaded: getLoadedMovieStatus(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
