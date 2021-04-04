@@ -15,7 +15,7 @@ import {keysToCamel} from '../../utils/utils';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
-import {getMovieList, getLoadedDataStatus} from '../../store/movies-data/selectors';
+import {getMovieList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
@@ -35,7 +35,7 @@ const App = (props) => {
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainScreeen films={movieList} firstFilm={firstFilm}/>
+          <MainScreeen films={movieList}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <SignIn/>
@@ -72,6 +72,8 @@ App.propTypes = {
 const mapStateToProps = (state) => ({
   movieList: getMovieList(state).map((movie) => keysToCamel(movie)),
   isDataLoaded: getLoadedDataStatus(state),
+  promoFilm: keysToCamel(getPromoFilm(state)),
+  isPromoFilmLoaded: getLoadedPromoFilm(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

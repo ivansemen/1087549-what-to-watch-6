@@ -7,6 +7,8 @@ const initialState = {
   isMovieLoaded: false,
   comments: [],
   isCommentsLoaded: false,
+  promoFilm: {},
+  isPromoFilmLoaded: false,
 };
 
 const moviesData = (state = initialState, action) => {
@@ -28,6 +30,12 @@ const moviesData = (state = initialState, action) => {
         ...state,
         comments: action.comments,
         isCommentsLoaded: true,
+      };
+    case ActionType.GET_PROMO_FILM:
+      return {
+        ...state,
+        promoFilm: action.promoFilm,
+        isPromoFilmLoaded: true,
       };
   }
 

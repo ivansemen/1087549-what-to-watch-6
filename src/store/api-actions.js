@@ -1,4 +1,4 @@
-import {requireAuthorization, getMovie, sendComment, getMovieList, redirectToRoute, getComments} from "./action";
+import {requireAuthorization, getMovie, sendComment, getMovieList, redirectToRoute, getComments, getPromoFilm} from "./action";
 import {AuthorizationStatus, APIRoute} from "../const";
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
@@ -34,5 +34,11 @@ export const review = (idFilm, {rating, comment}) => (dispatch, _getState, api) 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(getComments(data)))
+    .catch(() => {})
+);
+
+export const fetchPromoFilm = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.PROMO_FILM)
+    .then(({data}) => dispatch(getPromoFilm(data)))
     .catch(() => {})
 );

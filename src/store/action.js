@@ -6,6 +6,7 @@ export const ActionType = {
   REDIRECT_TO_ROUTE: `game/redirectToRoute`,
   SEND_COMMENT: `SEND_COMMENT`,
   GET_COMMENTS: `GET_COMMENTS`,
+  GET_PROMO_FILM: `GET_PROMO_FILM`,
 };
 
 export const changeGenre = (genre) => ({
@@ -41,4 +42,9 @@ export const sendComment = (comment) => ({
 export const getComments = (comments) => ({
   type: ActionType.GET_COMMENTS,
   comments,
+});
+
+export const getPromoFilm = (promoFilm) => ({
+  type: ActionType.GET_PROMO_FILM,
+  promoFilm,
 });

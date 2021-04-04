@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MovieList from '../movie-list/movie-list';
 import PropTypes from 'prop-types';
 import GenreList from '../genre-list/genre-list';
 import Avatar from '../avatar/avatar';
+import {getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
+import {connect} from 'react-redux';
+import {keysToCamel} from '../../utils/utils';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {fetchPromoFilm} from "../../store/api-actions";
 
 const MainScreeen = (props) => {
-  const {films, firstFilm} = props;
-  const {name, genre, posterImage, released, backgroundImage} = firstFilm;
+  const {films, promoFilm, isPromoFilmLoaded, onLoadData} = props;
+  const {name, genre, posterImage, released, backgroundImage} = promoFilm;
+
+  useEffect(() => {
+    onLoadData();
+  }, []);
+
+  if (!isPromoFilmLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <React.Fragment>
@@ -87,7 +102,7 @@ const MainScreeen = (props) => {
 
 
 MainScreeen.propTypes = {
-  firstFilm: PropTypes.shape({
+  promoFilm: PropTypes.shape({
     name: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     released: PropTypes.number.isRequired,
@@ -95,7 +110,20 @@ MainScreeen.propTypes = {
     backgroundImage: PropTypes.string.isRequired,
   }).isRequired,
   films: PropTypes.array.isRequired,
+  isPromoFilmLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  promoFilm: keysToCamel(getPromoFilm(state)),
+  isPromoFilmLoaded: getLoadedPromoFilm(state),
+});
 
-export default MainScreeen;
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchPromoFilm());
+  },
+});
+
+export {MainScreeen};
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreeen);

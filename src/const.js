@@ -16,7 +16,8 @@ export const AppRoute = {
 
 export const APIRoute = {
   FILMS: `/films`,
-  LOGIN: `/login`
+  LOGIN: `/login`,
+  PROMO_FILM: `/films/promo`,
 };
 
 export const NUMBER_SIMILAR_FILMS = 4;
