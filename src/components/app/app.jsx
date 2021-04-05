@@ -42,7 +42,7 @@ const App = (props) => {
         </Route>
         <PrivateRoute exact
           path={AppRoute.LIST}
-          render={() => <MyList films={movieList}/>}
+          render={() => <MyList/>}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
@@ -50,10 +50,10 @@ const App = (props) => {
         </Route>
         <PrivateRoute exact
           path={AppRoute.REVIEW}
-          render={() => <AddReview firstFilm={firstFilm}/>}
+          render={() => <AddReview/>}
         ></PrivateRoute>
         <Route exact path={AppRoute.PLAYER}>
-          <Player firstFilm={firstFilm}/>
+          <Player/>
         </Route>
         <Route>
           <NotFound/>

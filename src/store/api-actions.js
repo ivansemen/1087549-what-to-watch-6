@@ -1,4 +1,4 @@
-import {requireAuthorization, getMovie, sendComment, getMovieList, redirectToRoute, getComments, getPromoFilm} from "./action";
+import {requireAuthorization, getMovie, sendComment, getMovieList, redirectToRoute, getComments, getPromoFilm, getFavoriteFilms, sendFavoriteFilms} from "./action";
 import {AuthorizationStatus, APIRoute} from "../const";
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
@@ -30,7 +30,6 @@ export const review = (idFilm, {rating, comment}) => (dispatch, _getState, api) 
     .then(() => dispatch(sendComment()))
 );
 
-
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(getComments(data)))
@@ -41,4 +40,19 @@ export const fetchPromoFilm = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO_FILM)
     .then(({data}) => dispatch(getPromoFilm(data)))
     .catch(() => {})
+);
+
+export const fetchFavoriteMovies = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITE)
+    .then(({data}) => dispatch(getFavoriteFilms(data)))
+);
+
+export const sendFavoriteMovie = (idFilm, status) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${idFilm}/${status}`)
+    .then(({data}) => dispatch(sendFavoriteFilms(data)))
+);
+
+export const logout = () => (dispatch, _getState, api) => (
+  api.get(`/logout`)
+    .then(() => dispatch())
 );

@@ -11,6 +11,9 @@ export const getLoadedComments = (state) => state[NameSpace.DATA].isCommentsLoad
 export const getPromoFilm = (state) => state[NameSpace.DATA].promoFilm;
 export const getLoadedPromoFilm = (state) => state[NameSpace.DATA].isPromoFilmLoaded;
 export const getActiveGenre = (state) => state[NameSpace.DATA].genre;
+export const getFavoriteFilms = (state) => state[NameSpace.DATA].favoriteFilms;
+export const getLoadedFavoriteFilms = (state) => state[NameSpace.DATA].isFavoriteFilmsLoaded;
+export const sendFavoriteFilms = (state) => state[NameSpace.DATA].sendedMovie;
 
 export const getFilteredFilms = createSelector([getMovieList, getActiveGenre],
     (movieList, genre) => genre === `All genres` ? movieList.map((movie) => keysToCamel(movie)) : movieList.map((movie) => keysToCamel(movie)).filter((film) => film.genre === genre)

@@ -1,10 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MovieList from '../movie-list/movie-list';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {getFavoriteFilms, getLoadedFavoriteFilms} from '../../store/movies-data/selectors';
+import {keysToCamel} from '../../utils/utils';
+import {connect} from 'react-redux';
+import {fetchFavoriteMovies} from "../../store/api-actions";
+import LoadingScreen from '../loading-screen/loading-screen';
 
 const MyList = (props) => {
-  const {films} = props;
+  const {favoriteFilms, isFavoriteFilmsLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    onLoadData();
+  }, []);
+
+  if (!isFavoriteFilmsLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <div className="user-page">
@@ -28,7 +43,7 @@ const MyList = (props) => {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <MovieList films={films}/>
+        <MovieList films={favoriteFilms}/>
       </section>
 
       <footer className="page-footer">
@@ -49,8 +64,23 @@ const MyList = (props) => {
 };
 
 
-export default MyList;
-
 MyList.propTypes = {
-  films: PropTypes.array.isRequired,
+  favoriteFilms: PropTypes.array.isRequired,
+  isFavoriteFilmsLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
+
+
+const mapStateToProps = (state) => ({
+  favoriteFilms: getFavoriteFilms(state).map((movie) => keysToCamel(movie)),
+  isFavoriteFilmsLoaded: getLoadedFavoriteFilms(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchFavoriteMovies());
+  },
+});
+
+export {MyList};
+export default connect(mapStateToProps, mapDispatchToProps)(MyList);

@@ -7,6 +7,8 @@ export const ActionType = {
   SEND_COMMENT: `SEND_COMMENT`,
   GET_COMMENTS: `GET_COMMENTS`,
   GET_PROMO_FILM: `GET_PROMO_FILM`,
+  GET_FAVORITE_FILMS: `GET_FAVORITE_FILMS`,
+  SEND_FAVORITE_FILM: `SEND_FAVORITE_FILM`,
 };
 
 export const changeGenre = (genre) => ({
@@ -47,4 +49,14 @@ export const getComments = (comments) => ({
 export const getPromoFilm = (promoFilm) => ({
   type: ActionType.GET_PROMO_FILM,
   promoFilm,
+});
+
+export const getFavoriteFilms = (favoriteFilms) => ({
+  type: ActionType.GET_FAVORITE_FILMS,
+  favoriteFilms,
+});
+
+export const sendFavoriteFilms = (sendedFilm) => ({
+  type: ActionType.SEND_FAVORITE_FILM,
+  sendedFilm,
 });

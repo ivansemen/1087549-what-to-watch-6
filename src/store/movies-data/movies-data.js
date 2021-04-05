@@ -10,6 +10,9 @@ const initialState = {
   promoFilm: {},
   isPromoFilmLoaded: false,
   genre: `All genres`,
+  favoriteFilms: [],
+  isFavoriteFilmsLoaded: false,
+  sendedMovie: {},
 };
 
 const moviesData = (state = initialState, action) => {
@@ -42,6 +45,17 @@ const moviesData = (state = initialState, action) => {
       return {
         ...state,
         genre: action.genre,
+      };
+    case ActionType.GET_FAVORITE_FILMS:
+      return {
+        ...state,
+        favoriteFilms: action.favoriteFilms,
+        isFavoriteFilmsLoaded: true,
+      };
+    case ActionType.SEND_FAVORITE_FILM:
+      return {
+        ...state,
+        sendedMovie: action.sendedMovie,
       };
   }
 
