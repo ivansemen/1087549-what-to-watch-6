@@ -21,6 +21,7 @@ const SignIn = ({onSubmit}) => {
     return true;
   };
 
+
   const passwordValidation = () => {
     if (!passwordRef.current.validity.valid) {
       setIsInvalidPassword(true);
@@ -75,7 +76,7 @@ const SignIn = ({onSubmit}) => {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={handleSubmit} noValidate>
-        {renderValidationErrorMessage()}
+          {renderValidationErrorMessage()}
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" ref={loginRef} required/>
