@@ -6,7 +6,6 @@ const toCamel = (s) => {
   });
 };
 
-
 const isArray = function (a) {
   return Array.isArray(a);
 };

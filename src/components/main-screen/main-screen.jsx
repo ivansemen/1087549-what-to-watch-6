@@ -5,13 +5,13 @@ import GenreList from '../genre-list/genre-list';
 import Avatar from '../avatar/avatar';
 import {getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
 import {connect} from 'react-redux';
-import {keysToCamel, checkStatus} from '../../utils/utils';
+import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchPromoFilm, sendFavoriteMovie} from "../../store/api-actions";
 import browserHistory from "../../browser-history";
 
 const MainScreeen = (props) => {
-  const {films, promoFilm, isPromoFilmLoaded, onLoadData, onMyListClick} = props;
+  const {promoFilm, isPromoFilmLoaded, onLoadData, onMyListClick} = props;
   const {name, genre, posterImage, released, backgroundImage, id, isFavorite} = promoFilm;
 
   useEffect(() => {
@@ -26,7 +26,6 @@ const MainScreeen = (props) => {
 
   const handleClick = () => {
     onMyListClick(id, checkStatus(isFavorite));
-    isFavorite = !isFavorite;
   };
 
   return (
@@ -84,8 +83,8 @@ const MainScreeen = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList films={films}/>
-          <MovieList films={films}/>
+          <GenreList/>
+          <MovieList/>
         </section>
 
         <footer className="page-footer">
@@ -124,7 +123,7 @@ MainScreeen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  promoFilm: keysToCamel(getPromoFilm(state)),
+  promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),
 });
 

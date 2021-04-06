@@ -3,7 +3,6 @@ import {getComments, getLoadedComments} from '../../store/movies-data/selectors'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {keysToCamel} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchComments} from "../../store/api-actions";
 
@@ -76,7 +75,7 @@ Overview.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  comments: keysToCamel(getComments(state)),
+  comments: getComments(state),
   isCommentsLoaded: getLoadedComments(state),
 });
 

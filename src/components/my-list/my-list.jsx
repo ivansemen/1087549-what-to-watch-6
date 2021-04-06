@@ -3,7 +3,6 @@ import MovieList from '../movie-list/movie-list';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {getFavoriteFilms, getLoadedFavoriteFilms} from '../../store/movies-data/selectors';
-import {keysToCamel} from '../../utils/utils';
 import {connect} from 'react-redux';
 import {fetchFavoriteMovies} from "../../store/api-actions";
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -72,7 +71,7 @@ MyList.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  favoriteFilms: getFavoriteFilms(state).map((movie) => keysToCamel(movie)),
+  favoriteFilms: getFavoriteFilms(state),
   isFavoriteFilmsLoaded: getLoadedFavoriteFilms(state),
 });
 

@@ -19,7 +19,6 @@ import {getMovieList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} fro
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
-  const [firstFilm] = movieList;
 
   useEffect(() => {
     onLoadData();
@@ -46,7 +45,7 @@ const App = (props) => {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
-          <Film firstFilm={firstFilm} films={movieList}/>
+          <Film/>
         </Route>
         <PrivateRoute exact
           path={AppRoute.REVIEW}

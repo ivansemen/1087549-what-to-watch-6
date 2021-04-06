@@ -40,7 +40,7 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getFilteredFilms(state)
+  movieList: getFilteredFilms(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

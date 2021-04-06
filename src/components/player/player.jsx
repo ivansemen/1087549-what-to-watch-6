@@ -4,7 +4,6 @@ import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchMovie} from "../../store/api-actions";
-import {keysToCamel} from '../../utils/utils';
 import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
 import browserHistory from "../../browser-history";
 
@@ -113,7 +112,7 @@ Player.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  movie: keysToCamel(getMovie(state)),
+  movie: getMovie(state),
   isMovieLoaded: getLoadedMovieStatus(state),
 });
 

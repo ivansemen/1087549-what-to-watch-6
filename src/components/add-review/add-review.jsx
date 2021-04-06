@@ -5,7 +5,6 @@ import ReviewForm from '../review-form/review-form';
 import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {connect} from 'react-redux';
-import {keysToCamel} from '../../utils/utils';
 import {fetchMovie} from "../../store/api-actions";
 
 const AddReview = (props) => {
@@ -85,7 +84,7 @@ AddReview.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movie: keysToCamel(getMovie(state)),
+  movie: getMovie(state),
   isMovieLoaded: getLoadedMovieStatus(state),
 });
 

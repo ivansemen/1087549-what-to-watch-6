@@ -5,7 +5,7 @@ import SimilarMovieList from '../similar-movie-list/similar-movie-list';
 import Tabs from '../tabs/tabs';
 import {fetchMovie, sendFavoriteMovie} from "../../store/api-actions";
 import {connect} from 'react-redux';
-import {keysToCamel, checkStatus} from '../../utils/utils';
+import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
 import Avatar from '../avatar/avatar';
@@ -14,7 +14,7 @@ import {getAuthorizationStatus} from '../../store/user/selectors';
 import browserHistory from "../../browser-history";
 
 const Film = (props) => {
-  const {onLoadData, movie, films, isMovieLoaded, authorizationStatus, onMyListClick} = props;
+  const {onLoadData, movie, isMovieLoaded, authorizationStatus, onMyListClick} = props;
   const {id} = useParams();
   const {name, genre, released, posterImage, backgroundImage, isFavorite} = movie;
 
@@ -29,8 +29,7 @@ const Film = (props) => {
   }
 
   const handleClick = () => {
-    onMyListClick(id, checkStatus());
-    isFavorite = !isFavorite;
+    onMyListClick(id, checkStatus(isFavorite));
   };
 
   const checkAuthReview = () => {
@@ -104,7 +103,7 @@ const Film = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <SimilarMovieList films={films} film={movie}/>
+          <SimilarMovieList film={movie}/>
         </section>
 
         <footer className="page-footer">
@@ -128,7 +127,6 @@ const Film = (props) => {
 Film.propTypes = {
   onLoadData: PropTypes.func.isRequired,
   movie: PropTypes.object.isRequired,
-  films: PropTypes.array.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   onMyListClick: PropTypes.func.isRequired,
@@ -136,7 +134,7 @@ Film.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  movie: keysToCamel(getMovie(state)),
+  movie: getMovie(state),
   isMovieLoaded: getLoadedMovieStatus(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
