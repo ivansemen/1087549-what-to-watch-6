@@ -58,5 +58,5 @@ export const sendFavoriteMovie = (idFilm, status) => (dispatch, _getState, api) 
 
 export const logout = () => (dispatch, _getState, api) => (
   api.get(`/logout`)
-    .then(() => dispatch())
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );

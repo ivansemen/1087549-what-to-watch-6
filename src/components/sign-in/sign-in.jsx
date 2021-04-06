@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
@@ -9,14 +9,54 @@ const SignIn = ({onSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
+  const [isInvalidEmail, setIsInvalidEmail] = useState(false);
+  const [isInValidPassword, setIsInvalidPassword] = useState(false);
+
+  const emailValidation = () => {
+    if (!loginRef.current.validity.valid) {
+      setIsInvalidEmail(true);
+      return false;
+    }
+    setIsInvalidEmail(false);
+    return true;
+  };
+
+  const passwordValidation = () => {
+    if (!passwordRef.current.validity.valid) {
+      setIsInvalidPassword(true);
+      return false;
+    }
+    setIsInvalidPassword(false);
+    return true;
+  };
+
+  const checkFormValidity = () => {
+    return emailValidation() && passwordValidation();
+  };
+
+  const renderValidationErrorMessage = () => {
+    return (
+      <div className="sign-in__message">
+        {
+          (isInvalidEmail && <p>Please enter a valid email address</p>)
+          ||
+          (isInValidPassword && <p>Please enter a password</p>)
+        }
+      </div>
+    );
+  };
+
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
+    const isFormValid = checkFormValidity();
     onSubmit({
       login: loginRef.current.value,
       password: passwordRef.current.value,
     });
-    browserHistory.push(`/`);
+    if (isFormValid) {
+      browserHistory.push(`/`);
+    }
   };
 
   return (
@@ -34,14 +74,15 @@ const SignIn = ({onSubmit}) => {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+        <form action="#" className="sign-in__form" onSubmit={handleSubmit} noValidate>
+        {renderValidationErrorMessage()}
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" ref={loginRef}/>
+              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" ref={loginRef} required/>
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" ref={passwordRef}/>
+              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" ref={passwordRef} required/>
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
@@ -70,7 +111,6 @@ const SignIn = ({onSubmit}) => {
 
 SignIn.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onSubmitButtonClick: PropTypes.func.isRequired,
 };
 
 

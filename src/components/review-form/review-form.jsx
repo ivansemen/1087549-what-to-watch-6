@@ -15,8 +15,8 @@ const ReviewForm = ({onSubmit}) => {
 
   const disableButtonSubmit = () => {
     let status;
-    if (userForm.comment.length < 50) {
-      status = `disabled`;
+    if (userForm.comment.length < 50 || userForm.comment.length > 400) {
+      status = true;
     }
     return status;
   };
