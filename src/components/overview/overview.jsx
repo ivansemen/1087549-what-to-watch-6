@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {getComments, getLoadedComments} from '../../store/movies-data/selectors';
+import {getComments, getLoadedComments} from '../../store/comments/selectors';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';

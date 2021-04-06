@@ -46,11 +46,11 @@ const SimilarMovieList = (props) => {
 };
 
 SimilarMovieList.propTypes = {
-  films: PropTypes.array.isRequired,
-  film: PropTypes.object.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-  movieList: PropTypes.array.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
+  films: PropTypes.array,
+  film: PropTypes.object,
+  onLoadData: PropTypes.func,
+  movieList: PropTypes.array,
+  isDataLoaded: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

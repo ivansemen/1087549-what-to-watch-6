@@ -108,13 +108,13 @@ const MainScreeen = (props) => {
 
 MainScreeen.propTypes = {
   promoFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
+    name: PropTypes.string,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+    posterImage: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    id: PropTypes.number,
+    isFavorite: PropTypes.bool,
   }).isRequired,
   films: PropTypes.array.isRequired,
   isPromoFilmLoaded: PropTypes.bool.isRequired,
@@ -131,8 +131,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchPromoFilm());
   },
-  onMyListClick(filmData) {
-    dispatch(sendFavoriteMovie(filmData));
+  onMyListClick(id, status) {
+    dispatch(sendFavoriteMovie(id, status));
   }
 });
 

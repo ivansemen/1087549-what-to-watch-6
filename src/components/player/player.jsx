@@ -103,8 +103,8 @@ const Player = (props) => {
 
 Player.propTypes = {
   movie: PropTypes.shape({
-    backgroundImage: PropTypes.string.isRequired,
-    videoLink: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string,
+    videoLink: PropTypes.string,
   }).isRequired,
   onLoadData: PropTypes.func.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,

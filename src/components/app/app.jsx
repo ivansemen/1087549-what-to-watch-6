@@ -11,7 +11,6 @@ import SignIn from '../sign-in/sign-in';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchMovieList} from "../../store/api-actions";
 import {connect} from 'react-redux';
-import {keysToCamel} from '../../utils/utils';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
@@ -42,15 +41,14 @@ const App = (props) => {
         <PrivateRoute exact
           path={AppRoute.LIST}
           render={() => <MyList/>}
-        >
-        </PrivateRoute>
+        />
         <Route exact path={AppRoute.FILM}>
           <Film/>
         </Route>
         <PrivateRoute exact
           path={AppRoute.REVIEW}
           render={() => <AddReview/>}
-        ></PrivateRoute>
+        />
         <Route exact path={AppRoute.PLAYER}>
           <Player/>
         </Route>
@@ -69,9 +67,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getMovieList(state).map((movie) => keysToCamel(movie)),
+  movieList: getMovieList(state),
   isDataLoaded: getLoadedDataStatus(state),
-  promoFilm: keysToCamel(getPromoFilm(state)),
+  promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),
 });
 

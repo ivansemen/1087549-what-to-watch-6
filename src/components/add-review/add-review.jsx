@@ -75,9 +75,9 @@ const AddReview = (props) => {
 
 AddReview.propTypes = {
   movie: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    posterImage: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    posterImage: PropTypes.string,
   }).isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,

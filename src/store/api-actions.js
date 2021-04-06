@@ -29,6 +29,9 @@ export const fetchMovie = (id) => (dispatch, _getState, api) => (
 export const review = (idFilm, {rating, comment}) => (dispatch, _getState, api) => (
   api.post(`/comments/${idFilm}`, {rating, comment})
     .then(() => dispatch(sendComment()))
+    .catch(() => {
+      dispatch(redirectToRoute(`/404`));
+    })
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (

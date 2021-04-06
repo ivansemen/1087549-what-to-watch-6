@@ -143,8 +143,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadData(id) {
     dispatch(fetchMovie(id));
   },
-  onMyListClick(filmData) {
-    dispatch(sendFavoriteMovie(filmData));
+  onMyListClick(id, status) {
+    dispatch(sendFavoriteMovie(id, status));
   }
 });
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {getComments, getLoadedComments} from '../../store/movies-data/selectors';
+import {getComments, getLoadedComments} from '../../store/comments/selectors';
 import {connect} from 'react-redux';
 import {fetchComments} from "../../store/api-actions";
 import LoadingScreen from '../loading-screen/loading-screen';

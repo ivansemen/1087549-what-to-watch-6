@@ -5,8 +5,6 @@ const initialState = {
   isDataLoaded: false,
   movie: {},
   isMovieLoaded: false,
-  comments: [],
-  isCommentsLoaded: false,
   promoFilm: {},
   isPromoFilmLoaded: false,
   genre: `All genres`,
@@ -28,12 +26,6 @@ const moviesData = (state = initialState, action) => {
         ...state,
         movie: action.movie,
         isMovieLoaded: true,
-      };
-    case ActionType.GET_COMMENTS:
-      return {
-        ...state,
-        comments: action.comments,
-        isCommentsLoaded: true,
       };
     case ActionType.GET_PROMO_FILM:
       return {
