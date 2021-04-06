@@ -6,7 +6,6 @@ const toCamel = (s) => {
   });
 };
 
-
 const isArray = function (a) {
   return Array.isArray(a);
 };
@@ -32,4 +31,17 @@ export const keysToCamel = function (o) {
   }
 
   return o;
+};
+
+export const checkStatus = (isFavorite) => {
+  let status;
+  switch (isFavorite) {
+    case false:
+      status = 1;
+      break;
+    case true:
+      status = 0;
+      break;
+  }
+  return status;
 };

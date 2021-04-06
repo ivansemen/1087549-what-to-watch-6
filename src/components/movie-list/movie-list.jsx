@@ -1,20 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import MovieCard from '../movie-card/movie-card';
 import PropTypes from 'prop-types';
-import {debounce} from '../../utils/debounce';
 import {connect} from 'react-redux';
 import ShowMore from '../show-more/show-more';
 import {NUMBER_FILMS} from '../../const';
 import {getFilteredFilms, getMovieList} from '../../store/movies-data/selectors';
+import {debounce} from 'lodash';
+
+let handleMouseOver;
 
 const MovieList = (props) => {
   const {movieList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
   const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
-  const handleMouseOver = debounce(function (film) {
+  handleMouseOver = debounce(function (film) {
     setActiveFilm(film.id);
   }, 1000);
+
+  useEffect(() => () => handleMouseOver.cancel(), []);
 
   const filmList = movieList.slice(0, filmsCount).map((film) => {
     return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
@@ -40,7 +44,7 @@ MovieList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getFilteredFilms(state)
+  movieList: getFilteredFilms(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

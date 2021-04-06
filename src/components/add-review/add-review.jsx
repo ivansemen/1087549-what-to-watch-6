@@ -1,17 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import ReviewForm from '../review-form/review-form';
+import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {connect} from 'react-redux';
+import {fetchMovie} from "../../store/api-actions";
 
 const AddReview = (props) => {
-  const {firstFilm} = props;
-  const {name, previewImage} = firstFilm;
+  const {onLoadData, movie, isMovieLoaded} = props;
+  const {name, backgroundImage, posterImage} = movie;
+
+  const {id} = useParams();
+
+  useEffect(() => {
+    onLoadData(id);
+  }, [id]);
+
+  if (!isMovieLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <section className="movie-card movie-card--full">
       <div className="movie-card__header">
         <div className="movie-card__bg">
-          <img src={previewImage} alt={name} />
+          <img src={backgroundImage} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -44,7 +60,7 @@ const AddReview = (props) => {
         </header>
 
         <div className="movie-card__poster movie-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={posterImage} alt={name} width="218" height="327" />
         </div>
       </div>
 
@@ -57,12 +73,26 @@ const AddReview = (props) => {
 };
 
 
-export default AddReview;
-
-
 AddReview.propTypes = {
-  firstFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    previewImage: PropTypes.string.isRequired,
+  movie: PropTypes.shape({
+    name: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    posterImage: PropTypes.string,
   }).isRequired,
+  isMovieLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movie: getMovie(state),
+  isMovieLoaded: getLoadedMovieStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData(id) {
+    dispatch(fetchMovie(id));
+  },
+});
+
+export {AddReview};
+export default connect(mapStateToProps, mapDispatchToProps)(AddReview);

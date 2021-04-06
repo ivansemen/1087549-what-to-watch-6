@@ -3,19 +3,20 @@ import {Link, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SimilarMovieList from '../similar-movie-list/similar-movie-list';
 import Tabs from '../tabs/tabs';
-import {fetchMovie} from "../../store/api-actions";
+import {fetchMovie, sendFavoriteMovie} from "../../store/api-actions";
 import {connect} from 'react-redux';
-import {keysToCamel} from '../../utils/utils';
+import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
 import Avatar from '../avatar/avatar';
 import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
+import browserHistory from "../../browser-history";
 
 const Film = (props) => {
-  const {onLoadData, movie, films, isMovieLoaded, authorizationStatus} = props;
+  const {onLoadData, movie, isMovieLoaded, authorizationStatus, onMyListClick} = props;
   const {id} = useParams();
-  const {name, genre, released, posterImage, backgroundImage} = movie;
+  const {name, genre, released, posterImage, backgroundImage, isFavorite} = movie;
 
   useEffect(() => {
     onLoadData(id);
@@ -26,6 +27,10 @@ const Film = (props) => {
       <LoadingScreen />
     );
   }
+
+  const handleClick = () => {
+    onMyListClick(id, checkStatus(isFavorite));
+  };
 
   const checkAuthReview = () => {
     return (
@@ -64,13 +69,13 @@ const Film = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={() => browserHistory.push(`/player/${id}`)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button className="btn btn--list movie-card__button" type="button" onClick={handleClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -98,7 +103,7 @@ const Film = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <SimilarMovieList films={films} film={movie}/>
+          <SimilarMovieList film={movie}/>
         </section>
 
         <footer className="page-footer">
@@ -122,14 +127,14 @@ const Film = (props) => {
 Film.propTypes = {
   onLoadData: PropTypes.func.isRequired,
   movie: PropTypes.object.isRequired,
-  films: PropTypes.array.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
+  onMyListClick: PropTypes.func.isRequired,
 };
 
 
 const mapStateToProps = (state) => ({
-  movie: keysToCamel(getMovie(state)),
+  movie: getMovie(state),
   isMovieLoaded: getLoadedMovieStatus(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
@@ -138,6 +143,9 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadData(id) {
     dispatch(fetchMovie(id));
   },
+  onMyListClick(id, status) {
+    dispatch(sendFavoriteMovie(id, status));
+  }
 });
 
 export {Film};

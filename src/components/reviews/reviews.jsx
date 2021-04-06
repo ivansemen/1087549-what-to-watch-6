@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import {getComments, getLoadedComments} from '../../store/movies-data/selectors';
+import {getComments, getLoadedComments} from '../../store/comments/selectors';
 import {connect} from 'react-redux';
 import {fetchComments} from "../../store/api-actions";
 import LoadingScreen from '../loading-screen/loading-screen';
 import {useParams} from 'react-router-dom';
 import Review from '../../components/review/review';
-import {keysToCamel} from '../../utils/utils';
 import PropTypes from 'prop-types';
 
 const Reviews = (props) => {
@@ -47,7 +46,7 @@ Reviews.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  comments: keysToCamel(getComments(state)),
+  comments: getComments(state),
   isCommentsLoaded: getLoadedComments(state),
 });
 

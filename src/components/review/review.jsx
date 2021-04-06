@@ -37,10 +37,10 @@ const Review = (props) => {
 export default Review;
 
 Review.propTypes = {
-  review: PropTypes.object.isRequired,
-  comment: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  user: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  review: PropTypes.object,
+  comment: PropTypes.string,
+  date: PropTypes.string,
+  rating: PropTypes.number,
+  user: PropTypes.object,
+  name: PropTypes.string,
 };

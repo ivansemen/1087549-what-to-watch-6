@@ -11,7 +11,6 @@ import SignIn from '../sign-in/sign-in';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchMovieList} from "../../store/api-actions";
 import {connect} from 'react-redux';
-import {keysToCamel} from '../../utils/utils';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
@@ -19,7 +18,6 @@ import {getMovieList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} fro
 
 const App = (props) => {
   const {movieList, isDataLoaded, onLoadData} = props;
-  const [firstFilm] = movieList;
 
   useEffect(() => {
     onLoadData();
@@ -42,18 +40,17 @@ const App = (props) => {
         </Route>
         <PrivateRoute exact
           path={AppRoute.LIST}
-          render={() => <MyList films={movieList}/>}
-        >
-        </PrivateRoute>
+          render={() => <MyList/>}
+        />
         <Route exact path={AppRoute.FILM}>
-          <Film firstFilm={firstFilm} films={movieList}/>
+          <Film/>
         </Route>
         <PrivateRoute exact
           path={AppRoute.REVIEW}
-          render={() => <AddReview firstFilm={firstFilm}/>}
-        ></PrivateRoute>
+          render={() => <AddReview/>}
+        />
         <Route exact path={AppRoute.PLAYER}>
-          <Player firstFilm={firstFilm}/>
+          <Player/>
         </Route>
         <Route>
           <NotFound/>
@@ -70,9 +67,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getMovieList(state).map((movie) => keysToCamel(movie)),
+  movieList: getMovieList(state),
   isDataLoaded: getLoadedDataStatus(state),
-  promoFilm: keysToCamel(getPromoFilm(state)),
+  promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),
 });
 

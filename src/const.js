@@ -18,6 +18,7 @@ export const APIRoute = {
   FILMS: `/films`,
   LOGIN: `/login`,
   PROMO_FILM: `/films/promo`,
+  FAVORITE: `/favorite`,
 };
 
 export const NUMBER_SIMILAR_FILMS = 4;

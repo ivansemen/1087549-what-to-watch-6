@@ -5,13 +5,14 @@ import GenreList from '../genre-list/genre-list';
 import Avatar from '../avatar/avatar';
 import {getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
 import {connect} from 'react-redux';
-import {keysToCamel} from '../../utils/utils';
+import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {fetchPromoFilm} from "../../store/api-actions";
+import {fetchPromoFilm, sendFavoriteMovie} from "../../store/api-actions";
+import browserHistory from "../../browser-history";
 
 const MainScreeen = (props) => {
-  const {films, promoFilm, isPromoFilmLoaded, onLoadData} = props;
-  const {name, genre, posterImage, released, backgroundImage} = promoFilm;
+  const {promoFilm, isPromoFilmLoaded, onLoadData, onMyListClick} = props;
+  const {name, genre, posterImage, released, backgroundImage, id, isFavorite} = promoFilm;
 
   useEffect(() => {
     onLoadData();
@@ -22,6 +23,10 @@ const MainScreeen = (props) => {
       <LoadingScreen />
     );
   }
+
+  const handleClick = () => {
+    onMyListClick(id, checkStatus(isFavorite));
+  };
 
   return (
     <React.Fragment>
@@ -57,13 +62,13 @@ const MainScreeen = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={() => browserHistory.push(`/player/${id}`)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button className="btn btn--list movie-card__button" type="button" onClick={handleClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -78,8 +83,8 @@ const MainScreeen = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList films={films}/>
-          <MovieList films={films}/>
+          <GenreList/>
+          <MovieList/>
         </section>
 
         <footer className="page-footer">
@@ -103,19 +108,22 @@ const MainScreeen = (props) => {
 
 MainScreeen.propTypes = {
   promoFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+    posterImage: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    id: PropTypes.number,
+    isFavorite: PropTypes.bool,
   }).isRequired,
   films: PropTypes.array.isRequired,
   isPromoFilmLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
+  onMyListClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  promoFilm: keysToCamel(getPromoFilm(state)),
+  promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),
 });
 
@@ -123,6 +131,9 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchPromoFilm());
   },
+  onMyListClick(id, status) {
+    dispatch(sendFavoriteMovie(id, status));
+  }
 });
 
 export {MainScreeen};
