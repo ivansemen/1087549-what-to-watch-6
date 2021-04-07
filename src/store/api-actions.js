@@ -1,10 +1,10 @@
-import {requireAuthorization, getMovie, sendComment, getMovieList, redirectToRoute, getComments, getPromoFilm, getFavoriteFilms, sendFavoriteFilms} from "./action";
+import {requireAuthorization, getMovie, sendComment, getMoviesList, redirectToRoute, getComments, getPromoFilm, getFavoriteFilms, sendFavoriteFilms, getErrorComment} from "./action";
 import {AuthorizationStatus, APIRoute} from "../const";
 import {keysToCamel} from '../utils/utils';
 
-export const fetchMovieList = () => (dispatch, _getState, api) => (
+export const fetchMoviesList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FILMS)
-    .then(({data}) => dispatch(keysToCamel(getMovieList(data))))
+    .then(({data}) => dispatch(keysToCamel(getMoviesList(data))))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
@@ -30,7 +30,7 @@ export const review = (idFilm, {rating, comment}) => (dispatch, _getState, api) 
   api.post(`/comments/${idFilm}`, {rating, comment})
     .then(() => dispatch(sendComment()))
     .catch(() => {
-      dispatch(redirectToRoute(`/404`));
+      dispatch(getErrorComment());
     })
 );
 

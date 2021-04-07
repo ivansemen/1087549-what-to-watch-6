@@ -9,15 +9,15 @@ import NotFound from '../not-found/not-found';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {fetchMovieList} from "../../store/api-actions";
+import {fetchMoviesList} from "../../store/api-actions";
 import {connect} from 'react-redux';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
-import {getMovieList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
+import {getMoviesList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
 
 const App = (props) => {
-  const {movieList, isDataLoaded, onLoadData} = props;
+  const {moviesList, isDataLoaded, onLoadData} = props;
 
   useEffect(() => {
     onLoadData();
@@ -33,7 +33,7 @@ const App = (props) => {
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainScreeen films={movieList}/>
+          <MainScreeen films={moviesList}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <SignIn/>
@@ -61,13 +61,13 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  movieList: PropTypes.array.isRequired,
+  moviesList: PropTypes.array.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getMovieList(state),
+  moviesList: getMoviesList(state),
   isDataLoaded: getLoadedDataStatus(state),
   promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),
@@ -75,7 +75,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
-    dispatch(fetchMovieList());
+    dispatch(fetchMoviesList());
   },
 });
 

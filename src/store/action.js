@@ -1,6 +1,6 @@
 export const ActionType = {
   CHANGE_GENRE: `CHANGE_GENRE`,
-  GET_MOVIE_LIST: `GET_MOVIE_LIST`,
+  GET_MOVIES_LIST: `GET_MOVIE_LIST`,
   GET_MOVIE: `GET_MOVIE`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   REDIRECT_TO_ROUTE: `game/redirectToRoute`,
@@ -9,6 +9,8 @@ export const ActionType = {
   GET_PROMO_FILM: `GET_PROMO_FILM`,
   GET_FAVORITE_FILMS: `GET_FAVORITE_FILMS`,
   SEND_FAVORITE_FILM: `SEND_FAVORITE_FILM`,
+  ERROR_COMMENT: `ERROR_COMMENT`,
+  REMOVE_MOVIE: `REMOVE_MOVIE`,
 };
 
 export const changeGenre = (genre) => ({
@@ -21,9 +23,13 @@ export const getMovie = (movie) => ({
   movie,
 });
 
-export const getMovieList = (movieList) => ({
-  type: ActionType.GET_MOVIE_LIST,
-  movieList,
+export const removeMovie = () => ({
+  type: ActionType.REMOVE_MOVIE,
+});
+
+export const getMoviesList = (moviesList) => ({
+  type: ActionType.GET_MOVIES_LIST,
+  moviesList,
 });
 
 export const requireAuthorization = (status) => ({
@@ -60,3 +66,11 @@ export const sendFavoriteFilms = (sendedFilm) => ({
   type: ActionType.SEND_FAVORITE_FILM,
   sendedFilm,
 });
+
+
+export const getErrorComment = (commentError) => ({
+  type: ActionType.ERROR_COMMENT,
+  commentError,
+});
+
+

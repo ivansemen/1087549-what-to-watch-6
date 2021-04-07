@@ -2,7 +2,7 @@ import React from 'react';
 import {changeGenre} from '../../store/action';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getMovieList, getActiveGenre} from '../../store/movies-data/selectors';
+import {getMoviesList, getActiveGenre} from '../../store/movies-data/selectors';
 
 const GenreList = (props) => {
   const {genres, changeActiveGenre, activeGenre} = props;
@@ -37,7 +37,7 @@ const mapStateToProps = (state) => ({
   genres: () => {
     const genres = [`All genres`];
 
-    for (let film of getMovieList(state)) {
+    for (let film of getMoviesList(state)) {
       if (!genres.includes(film.genre)) {
         genres.push(film.genre);
       }

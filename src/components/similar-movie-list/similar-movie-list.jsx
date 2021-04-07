@@ -3,26 +3,15 @@ import MovieCard from '../movie-card/movie-card';
 import {debounce} from '../../utils/debounce';
 import PropTypes from 'prop-types';
 import {NUMBER_SIMILAR_FILMS} from '../../const';
-import LoadingScreen from '../loading-screen/loading-screen';
-import {getMovieList, getLoadedDataStatus} from '../../store/movies-data/selectors';
+import {getMoviesList, getLoadedDataStatus} from '../../store/movies-data/selectors';
 import {connect} from 'react-redux';
-import {fetchMovieList} from "../../store/api-actions";
+import {fetchMoviesList} from "../../store/api-actions";
 
 const SimilarMovieList = (props) => {
-  const {film, onLoadData, movieList, isDataLoaded} = props;
+  const {film, moviesList, isDataLoaded} = props;
   const [activeFilm, setActiveFilm] = useState(0);
 
-  useEffect(() => {
-    onLoadData();
-  }, []);
-
-  if (!isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
-  const filteredMovieList = movieList.filter((movie) => movie.genre === film.genre);
+  const filteredMoviesList = moviesList.filter((movie) => movie.genre === film.genre);
 
   const handleMouseOver = debounce(function (movie) {
     setActiveFilm(movie.id);
@@ -30,12 +19,12 @@ const SimilarMovieList = (props) => {
 
   const filmList = [];
 
-  if (filteredMovieList.length > NUMBER_SIMILAR_FILMS) {
-    filteredMovieList.length = 4;
+  if (filteredMoviesList.length > NUMBER_SIMILAR_FILMS) {
+    filteredMoviesList.length = 4;
   }
 
-  for (let i = 0; i < filteredMovieList.length; i++) {
-    filmList.push(<MovieCard film={filteredMovieList[i]} key={filteredMovieList[i].id} onmouseover={() => handleMouseOver(filteredMovieList[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
+  for (let i = 0; i < filteredMoviesList.length; i++) {
+    filmList.push(<MovieCard film={filteredMoviesList[i]} key={filteredMoviesList[i].id} onmouseover={() => handleMouseOver(filteredMoviesList[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
   }
 
   return (
@@ -49,20 +38,14 @@ SimilarMovieList.propTypes = {
   films: PropTypes.array,
   film: PropTypes.object,
   onLoadData: PropTypes.func,
-  movieList: PropTypes.array,
+  moviesList: PropTypes.array,
   isDataLoaded: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getMovieList(state),
+  moviesList: getMoviesList(state),
   isDataLoaded: getLoadedDataStatus(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchMovieList());
-  },
-});
-
 export {SimilarMovieList};
-export default connect(mapStateToProps, mapDispatchToProps)(SimilarMovieList);
+export default connect(mapStateToProps, null)(SimilarMovieList);

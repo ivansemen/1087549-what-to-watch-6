@@ -4,8 +4,9 @@ import {useParams} from 'react-router-dom';
 import {review} from "../../store/api-actions";
 import PropTypes from 'prop-types';
 import browserHistory from "../../browser-history";
+import {getErrorComment} from '../../store/comments/selectors';
 
-const ReviewForm = ({onSubmit}) => {
+const ReviewForm = ({onSubmit, commentError}) => {
   const [userForm, setUserForm] = useState({
     comment: ``,
     rating: ``
@@ -45,6 +46,7 @@ const ReviewForm = ({onSubmit}) => {
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+    {commentError === true ? <div>Something has gone wrong</div> : ``}
       <div className="rating">
         <div className="rating__stars">
           <input className="rating__input" id="star-1" type="radio" name="rating" value="1" onChange={handleRadioChange} disabled={isSend}/>
@@ -93,6 +95,10 @@ ReviewForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  commentError: getErrorComment(state),
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(id, commentData) {
     dispatch(review(id, commentData));
@@ -100,4 +106,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {ReviewForm};
-export default connect(null, mapDispatchToProps)(ReviewForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewForm);

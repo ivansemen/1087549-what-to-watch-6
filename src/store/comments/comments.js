@@ -4,6 +4,7 @@ const initialState = {
   comment: [],
   comments: [],
   isCommentsLoaded: false,
+  commentError: false,
 };
 
 const comments = (state = initialState, action) => {
@@ -18,6 +19,11 @@ const comments = (state = initialState, action) => {
         ...state,
         comments: action.comments,
         isCommentsLoaded: true,
+      };
+    case ActionType.ERROR_COMMENT:
+      return {
+        ...state,
+        commentError: true,
       };
   }
 

@@ -1,32 +1,40 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import MovieCard from '../movie-card/movie-card';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ShowMore from '../show-more/show-more';
 import {NUMBER_FILMS} from '../../const';
-import {getFilteredFilms, getMovieList} from '../../store/movies-data/selectors';
+import {getFilteredFilms} from '../../store/movies-data/selectors';
 import {debounce} from 'lodash';
 
 let handleMouseOver;
 
 const MovieList = (props) => {
-  const {movieList} = props;
+  const {moviesList} = props;
+
+  const ref = useRef(true);
   const [activeFilm, setActiveFilm] = useState(0);
   const [filmsCount, setFilmsCount] = useState(NUMBER_FILMS);
 
   handleMouseOver = debounce(function (film) {
-    setActiveFilm(film.id);
+    if (ref.current) {
+      setActiveFilm(film.id);
+    }
   }, 1000);
 
-  useEffect(() => () => handleMouseOver.cancel(), []);
+  useEffect(() => {
+    return () => {
+      ref.current = false;
+    };
+  }, []);
 
-  const filmList = movieList.slice(0, filmsCount).map((film) => {
+  const filmList = moviesList.slice(0, filmsCount).map((film) => {
     return <MovieCard film={film} key={film.id} onmouseover={() => handleMouseOver(film)} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>;
   }
   );
 
   const handleShowMore = () => {
-    setFilmsCount(filmsCount + Math.min(NUMBER_FILMS, movieList.length - filmsCount));
+    setFilmsCount(filmsCount + Math.min(NUMBER_FILMS, moviesList.length - filmsCount));
   };
 
   return (
@@ -34,24 +42,19 @@ const MovieList = (props) => {
       <div className="catalog__movies-list">
         {filmList}
       </div>
-      {movieList.length > filmsCount ? <ShowMore onclick={handleShowMore}/> : ``}
+      {moviesList.length > filmsCount ? <ShowMore onclick={handleShowMore}/> : ``}
     </React.Fragment>
   );
 };
 
 MovieList.propTypes = {
-  movieList: PropTypes.array.isRequired,
+  moviesList: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  movieList: getFilteredFilms(state),
+  moviesList: getFilteredFilms(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getMovieList(movieList) {
-    dispatch(getMovieList(movieList));
-  },
-});
 
 export {MovieList};
-export default connect(mapStateToProps, mapDispatchToProps)(MovieList);
+export default connect(mapStateToProps, null)(MovieList);

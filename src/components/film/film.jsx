@@ -12,15 +12,22 @@ import Avatar from '../avatar/avatar';
 import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import browserHistory from "../../browser-history";
+import {removeMovie} from '../../store/action';
 
 const Film = (props) => {
-  const {onLoadData, movie, isMovieLoaded, authorizationStatus, onMyListClick} = props;
+  const {onLoadData, movie = {}, isMovieLoaded, authorizationStatus, onMyListClick, deleteFilm} = props;
   const {id} = useParams();
   const {name, genre, released, posterImage, backgroundImage, isFavorite} = movie;
 
   useEffect(() => {
     onLoadData(id);
   }, [id]);
+
+  useEffect(() => {
+    return () => {
+      deleteFilm();
+    };
+  }, []);
 
   if (!isMovieLoaded) {
     return (
@@ -145,6 +152,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onMyListClick(id, status) {
     dispatch(sendFavoriteMovie(id, status));
+  },
+  deleteFilm: () => {
+   dispatch(removeMovie())
   }
 });
 

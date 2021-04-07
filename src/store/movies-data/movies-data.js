@@ -1,7 +1,7 @@
 import {ActionType} from '../action';
 
 const initialState = {
-  movieList: [],
+  moviesList: [],
   isDataLoaded: false,
   movie: {},
   isMovieLoaded: false,
@@ -15,10 +15,10 @@ const initialState = {
 
 const moviesData = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.GET_MOVIE_LIST:
+    case ActionType.GET_MOVIES_LIST:
       return {
         ...state,
-        movieList: action.movieList,
+        moviesList: action.moviesList,
         isDataLoaded: true,
       };
     case ActionType.GET_MOVIE:
@@ -26,6 +26,11 @@ const moviesData = (state = initialState, action) => {
         ...state,
         movie: action.movie,
         isMovieLoaded: true,
+      };
+    case ActionType.REMOVE_MOVIE:
+      return {
+        ...state,
+        movie: undefined,
       };
     case ActionType.GET_PROMO_FILM:
       return {
