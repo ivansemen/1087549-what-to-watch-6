@@ -46,7 +46,7 @@ const ReviewForm = ({onSubmit, commentError}) => {
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleSubmit}>
-    {commentError === true ? <div>Something has gone wrong</div> : ``}
+      {commentError === true ? <div>Something has gone wrong</div> : ``}
       <div className="rating">
         <div className="rating__stars">
           <input className="rating__input" id="star-1" type="radio" name="rating" value="1" onChange={handleRadioChange} disabled={isSend}/>
@@ -93,6 +93,7 @@ const ReviewForm = ({onSubmit, commentError}) => {
 
 ReviewForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  commentError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -15,7 +15,7 @@ import browserHistory from "../../browser-history";
 import {removeMovie} from '../../store/action';
 
 const Film = (props) => {
-  const {onLoadData, movie = {}, isMovieLoaded, authorizationStatus, onMyListClick, deleteFilm} = props;
+  const {onLoadData, movie, isMovieLoaded, authorizationStatus, onMyListClick, deleteFilm} = props;
   const {id} = useParams();
   const {name, genre, released, posterImage, backgroundImage, isFavorite} = movie;
 
@@ -137,6 +137,7 @@ Film.propTypes = {
   isMovieLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   onMyListClick: PropTypes.func.isRequired,
+  deleteFilm: PropTypes.func.isRequired,
 };
 
 
@@ -154,7 +155,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(sendFavoriteMovie(id, status));
   },
   deleteFilm: () => {
-   dispatch(removeMovie())
+    dispatch(removeMovie());
   }
 });
 

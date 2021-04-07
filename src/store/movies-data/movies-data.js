@@ -30,7 +30,8 @@ const moviesData = (state = initialState, action) => {
     case ActionType.REMOVE_MOVIE:
       return {
         ...state,
-        movie: undefined,
+        movie: {},
+        isMovieLoaded: false,
       };
     case ActionType.GET_PROMO_FILM:
       return {

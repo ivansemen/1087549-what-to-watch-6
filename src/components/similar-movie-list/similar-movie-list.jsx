@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import MovieCard from '../movie-card/movie-card';
 import {debounce} from '../../utils/debounce';
 import PropTypes from 'prop-types';
 import {NUMBER_SIMILAR_FILMS} from '../../const';
-import {getMoviesList, getLoadedDataStatus} from '../../store/movies-data/selectors';
+import {getMoviesList} from '../../store/movies-data/selectors';
 import {connect} from 'react-redux';
-import {fetchMoviesList} from "../../store/api-actions";
 
 const SimilarMovieList = (props) => {
-  const {film, moviesList, isDataLoaded} = props;
+  const {film, moviesList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
 
   const filteredMoviesList = moviesList.filter((movie) => movie.genre === film.genre);
@@ -44,7 +43,6 @@ SimilarMovieList.propTypes = {
 
 const mapStateToProps = (state) => ({
   moviesList: getMoviesList(state),
-  isDataLoaded: getLoadedDataStatus(state),
 });
 
 export {SimilarMovieList};
