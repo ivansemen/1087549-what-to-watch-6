@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 import browserHistory from "../../browser-history";
 import {Link} from 'react-router-dom';
+import {validateEmail} from '../../utils/utils';
 
 const SignIn = ({onSubmit}) => {
   const loginRef = useRef();
@@ -13,7 +14,7 @@ const SignIn = ({onSubmit}) => {
   const [isInValidPassword, setIsInvalidPassword] = useState(false);
 
   const emailValidation = () => {
-    if (!loginRef.current.validity.valid) {
+    if (!validateEmail(loginRef.current.value)) {
       setIsInvalidEmail(true);
       return false;
     }

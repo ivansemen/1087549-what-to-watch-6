@@ -7,7 +7,7 @@ import {getMoviesList, getActiveGenre} from '../../store/movies-data/selectors';
 const GenreList = (props) => {
   const {genres, changeActiveGenre, activeGenre} = props;
 
-  const genreList = genres().map((genre, index) => {
+  const genresList = genres().map((genre, index) => {
     return (
       <li className={genre === activeGenre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item`} key={index} onClick={(evt) => {
         evt.preventDefault();
@@ -17,11 +17,10 @@ const GenreList = (props) => {
       </li>
     );
   });
-  // Создаёт элементы фильтрации
 
   return (
     <ul className="catalog__genres-list">
-      {genreList}
+      {genresList}
     </ul>
   );
 };

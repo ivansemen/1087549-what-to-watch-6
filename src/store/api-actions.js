@@ -1,4 +1,4 @@
-import {requireAuthorization, getMovie, sendComment, getMoviesList, redirectToRoute, getComments, getPromoFilm, getFavoriteFilms, sendFavoriteFilms, getErrorComment} from "./action";
+import {requireAuthorization, getMovie, sendComment, getMoviesList, redirectToRoute, getComments, getPromoFilm, getFavoriteFilms, sendFavoriteFilm, getErrorComment} from "./action";
 import {AuthorizationStatus, APIRoute} from "../const";
 import {keysToCamel} from '../utils/utils';
 
@@ -52,8 +52,8 @@ export const fetchFavoriteMovies = () => (dispatch, _getState, api) => (
 );
 
 export const sendFavoriteMovie = (idFilm, status) => (dispatch, _getState, api) => (
-  api.post(`/favorite/${idFilm}/${status}`)
-    .then(({data}) => dispatch(sendFavoriteFilms(data)))
+  api.post(`/favorite/${idFilm}/${Number(!status)}`)
+    .then(({data}) => dispatch(sendFavoriteFilm(data)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (

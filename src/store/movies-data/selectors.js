@@ -10,7 +10,7 @@ export const getLoadedPromoFilm = (state) => state[NameSpace.DATA].isPromoFilmLo
 export const getActiveGenre = (state) => state[NameSpace.DATA].genre;
 export const getFavoriteFilms = (state) => state[NameSpace.DATA].favoriteFilms;
 export const getLoadedFavoriteFilms = (state) => state[NameSpace.DATA].isFavoriteFilmsLoaded;
-export const sendFavoriteFilms = (state) => state[NameSpace.DATA].sendedMovie;
+export const sendFavoriteFilm = (state) => state[NameSpace.DATA].sendedMovie;
 
 export const getFilteredFilms = createSelector([getMoviesList, getActiveGenre],
     (moviesList, genre) => genre === `All genres` ? moviesList.map((movie) => movie) : moviesList.map((movie) => movie).filter((film) => film.genre === genre)

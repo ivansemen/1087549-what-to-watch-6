@@ -10,7 +10,7 @@ const SimilarMovieList = (props) => {
   const {film, moviesList} = props;
   const [activeFilm, setActiveFilm] = useState(0);
 
-  const filteredMoviesList = moviesList.filter((movie) => movie.genre === film.genre);
+  const filteredMoviesList = moviesList.filter((movie) => movie.genre === film.genre && movie.id !== film.id);
 
   const handleMouseOver = debounce(function (movie) {
     setActiveFilm(movie.id);
@@ -23,7 +23,7 @@ const SimilarMovieList = (props) => {
   }
 
   for (let i = 0; i < filteredMoviesList.length; i++) {
-    filmList.push(<MovieCard film={filteredMoviesList[i]} key={filteredMoviesList[i].id} onmouseover={() => handleMouseOver(filteredMoviesList[i])} onmouseout={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
+    filmList.push(<MovieCard film={filteredMoviesList[i]} key={filteredMoviesList[i].id} onMouseOver={() => handleMouseOver(filteredMoviesList[i])} onMouseOut={() => setActiveFilm(0)} activeFilm={activeFilm}/>);
   }
 
   return (

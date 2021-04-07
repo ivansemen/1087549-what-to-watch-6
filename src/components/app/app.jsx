@@ -14,7 +14,8 @@ import {connect} from 'react-redux';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../const';
 import browserHistory from "../../browser-history";
-import {getMoviesList, getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
+import {getLoadedDataStatus, getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
+import {getFilteredFilms} from '../../store/movies-data/selectors';
 
 const App = (props) => {
   const {moviesList, isDataLoaded, onLoadData} = props;
@@ -67,7 +68,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  moviesList: getMoviesList(state),
+  moviesList: getFilteredFilms(state),
   isDataLoaded: getLoadedDataStatus(state),
   promoFilm: getPromoFilm(state),
   isPromoFilmLoaded: getLoadedPromoFilm(state),

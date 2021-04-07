@@ -8,11 +8,11 @@ import {fetchFavoriteMovies} from "../../store/api-actions";
 import LoadingScreen from '../loading-screen/loading-screen';
 
 const MyList = (props) => {
-  const {favoriteFilms, isFavoriteFilmsLoaded, onLoadData} = props;
+  const {favoriteFilms, onLoadData, isFavoriteFilmsLoaded} = props;
 
   useEffect(() => {
     onLoadData();
-  }, []);
+  }, [favoriteFilms.length]);
 
   if (!isFavoriteFilmsLoaded) {
     return (
@@ -42,7 +42,7 @@ const MyList = (props) => {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <MovieList films={favoriteFilms}/>
+        <MovieList moviesList={favoriteFilms}/>
       </section>
 
       <footer className="page-footer">

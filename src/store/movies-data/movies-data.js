@@ -10,7 +10,10 @@ const initialState = {
   genre: `All genres`,
   favoriteFilms: [],
   isFavoriteFilmsLoaded: false,
-  sendedMovie: {},
+  sendedMovie: {
+    id: 0,
+    isFavorite: false,
+  },
 };
 
 const moviesData = (state = initialState, action) => {
@@ -53,7 +56,10 @@ const moviesData = (state = initialState, action) => {
     case ActionType.SEND_FAVORITE_FILM:
       return {
         ...state,
-        sendedMovie: action.sendedMovie,
+        sendedMovie: {
+          "id": action.payload.id,
+          "is_favorite": action.payload.isFavorite,
+        },
       };
   }
 

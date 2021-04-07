@@ -5,28 +5,24 @@ import GenreList from '../genre-list/genre-list';
 import Avatar from '../avatar/avatar';
 import {getPromoFilm, getLoadedPromoFilm} from '../../store/movies-data/selectors';
 import {connect} from 'react-redux';
-import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {fetchPromoFilm, sendFavoriteMovie} from "../../store/api-actions";
+import {fetchPromoFilm} from "../../store/api-actions";
 import browserHistory from "../../browser-history";
+import ButtonMyList from '../button-my-list/button-my-list';
 
 const MainScreeen = (props) => {
-  const {promoFilm, isPromoFilmLoaded, onLoadData, onMyListClick} = props;
+  const {films, promoFilm, isPromoFilmLoaded, onLoadData} = props;
   const {name, genre, posterImage, released, backgroundImage, id, isFavorite} = promoFilm;
 
   useEffect(() => {
     onLoadData();
-  }, []);
+  }, [isFavorite]);
 
   if (!isPromoFilmLoaded) {
     return (
       <LoadingScreen />
     );
   }
-
-  const handleClick = () => {
-    onMyListClick(id, checkStatus(isFavorite));
-  };
 
   return (
     <React.Fragment>
@@ -68,12 +64,7 @@ const MainScreeen = (props) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button" onClick={handleClick}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <ButtonMyList id={id} isFavorite={isFavorite}/>
               </div>
             </div>
           </div>
@@ -84,7 +75,7 @@ const MainScreeen = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList/>
-          <MovieList/>
+          <MovieList moviesList={films}/>
         </section>
 
         <footer className="page-footer">
@@ -119,7 +110,6 @@ MainScreeen.propTypes = {
   films: PropTypes.array.isRequired,
   isPromoFilmLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
-  onMyListClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -131,9 +121,6 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchPromoFilm());
   },
-  onMyListClick(id, status) {
-    dispatch(sendFavoriteMovie(id, status));
-  }
 });
 
 export {MainScreeen};

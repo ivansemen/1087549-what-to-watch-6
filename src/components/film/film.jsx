@@ -3,9 +3,8 @@ import {Link, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SimilarMovieList from '../similar-movie-list/similar-movie-list';
 import Tabs from '../tabs/tabs';
-import {fetchMovie, sendFavoriteMovie} from "../../store/api-actions";
+import {fetchMovie} from "../../store/api-actions";
 import {connect} from 'react-redux';
-import {checkStatus} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
 import Avatar from '../avatar/avatar';
@@ -13,9 +12,10 @@ import {getMovie, getLoadedMovieStatus} from '../../store/movies-data/selectors'
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import browserHistory from "../../browser-history";
 import {removeMovie} from '../../store/action';
+import ButtonMyList from '../button-my-list/button-my-list';
 
 const Film = (props) => {
-  const {onLoadData, movie, isMovieLoaded, authorizationStatus, onMyListClick, deleteFilm} = props;
+  const {onLoadData, movie, isMovieLoaded, authorizationStatus, deleteFilm} = props;
   const {id} = useParams();
 
   const {name, genre, released, posterImage, backgroundImage, isFavorite} = movie;
@@ -35,10 +35,6 @@ const Film = (props) => {
       <LoadingScreen />
     );
   }
-
-  const handleClick = () => {
-    onMyListClick(id, checkStatus(isFavorite));
-  };
 
   const checkAuthReview = () => {
     return (
@@ -83,12 +79,7 @@ const Film = (props) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button" onClick={handleClick}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <ButtonMyList id={+id} isFavorite={isFavorite}/>
                 {checkAuthReview()}
               </div>
             </div>
@@ -137,7 +128,6 @@ Film.propTypes = {
   movie: PropTypes.object.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  onMyListClick: PropTypes.func.isRequired,
   deleteFilm: PropTypes.func.isRequired,
 };
 
@@ -151,9 +141,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onLoadData(id) {
     dispatch(fetchMovie(id));
-  },
-  onMyListClick(id, status) {
-    dispatch(sendFavoriteMovie(id, status));
   },
   deleteFilm: () => {
     dispatch(removeMovie());

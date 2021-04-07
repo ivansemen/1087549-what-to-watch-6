@@ -6,7 +6,7 @@ const Review = (props) => {
   const {comment, date, rating, user} = review;
   const {name} = user;
 
-  const options = {
+  const Options = {
     month: `long`,
     day: `numeric`,
     year: `numeric`,
@@ -14,7 +14,7 @@ const Review = (props) => {
 
   const getDate = (str) => {
     let correctDate = new Date(str);
-    return correctDate.toLocaleString(`en`, options);
+    return correctDate.toLocaleString(`en`, Options);
   };
 
   return (

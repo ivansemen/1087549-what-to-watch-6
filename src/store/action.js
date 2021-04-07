@@ -62,11 +62,13 @@ export const getFavoriteFilms = (favoriteFilms) => ({
   favoriteFilms,
 });
 
-export const sendFavoriteFilms = (sendedFilm) => ({
+export const sendFavoriteFilm = (sendedFilm) => ({
   type: ActionType.SEND_FAVORITE_FILM,
-  sendedFilm,
+  payload: {
+    id: sendedFilm.id,
+    isFavorite: sendedFilm.is_favorite,
+  }
 });
-
 
 export const getErrorComment = (commentError) => ({
   type: ActionType.ERROR_COMMENT,
