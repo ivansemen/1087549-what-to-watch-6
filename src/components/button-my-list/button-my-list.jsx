@@ -12,7 +12,7 @@ const ButtonMyList = (props) => {
 
   useEffect(() => {
     setInlist(isFavorite);
-  }, [isFavorite]);
+  }, [id, isFavorite]);
 
   return (
     <button className="btn btn--list movie-card__button" type="button" onClick={authorizationStatus === AuthorizationStatus.AUTH ? () => {
