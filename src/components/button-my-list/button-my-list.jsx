@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {sendFavoriteMovie} from "../../store/api-actions";
@@ -10,11 +10,15 @@ const ButtonMyList = (props) => {
   const {id, isFavorite, onAddUserListСlick, authorizationStatus} = props;
   const [inList, setInlist] = useState(isFavorite);
 
+  useEffect(() => {
+    setInlist(isFavorite);
+  }, [id, isFavorite]);
+
   return (
     <button className="btn btn--list movie-card__button" type="button" onClick={authorizationStatus === AuthorizationStatus.AUTH ? () => {
       onAddUserListСlick(id, inList);
       setInlist(!inList);
-    } : browserHistory.push(`/login`)
+    } : () => browserHistory.push(`/login`)
     }>
       <svg viewBox="0 0 19 20" width="19" height="20">
         <use xlinkHref={inList ? `#in-list` : `#add`}></use>

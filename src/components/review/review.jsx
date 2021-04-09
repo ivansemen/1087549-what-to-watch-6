@@ -6,15 +6,15 @@ const Review = (props) => {
   const {comment, date, rating, user} = review;
   const {name} = user;
 
-  const Options = {
-    month: `long`,
-    day: `numeric`,
-    year: `numeric`,
+  const TimeOptions = {
+    MONTH: `long`,
+    DAY: `numeric`,
+    YEAR: `numeric`,
   };
 
   const getDate = (str) => {
     let correctDate = new Date(str);
-    return correctDate.toLocaleString(`en`, Options);
+    return correctDate.toLocaleString(`en`, {month: TimeOptions.MONTH, day: TimeOptions.DAY, year: TimeOptions.YEAR});
   };
 
   return (
